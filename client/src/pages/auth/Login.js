@@ -18,16 +18,33 @@ const Login = () => {
     try {
       const response = await fetch("http://localhost:8080/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
       if (response.ok) {
+        const userRole = data?.user?.role || "guest";
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("role", userRole);
         alert("Login Successful");
-        navigate("/dashboard"); // Redirect to dashboard or desired page
+
+        switch (data.user.role) {
+          case "admin":
+            navigate("/admin-dashboard");
+            break;
+          case "organisation":
+            navigate("/org-dashboard");
+            break;
+          case "donor":
+            navigate("/donor-dashboard");
+            break;
+          case "hospital":
+            navigate("/hospital-dashboard");
+            break;
+          default:
+            navigate("/");
+        }
       } else {
         alert(data.message || "Login Failed");
       }
@@ -80,7 +97,7 @@ const Login = () => {
                   <option value="">Select Role</option>
                   <option value="admin">Admin</option>
                   <option value="organisation">Organisation</option>
-                  <option value="donar">Donor</option>
+                  <option value="donor">Donor</option>
                   <option value="hospital">Hospital</option>
                 </select>
               </div>

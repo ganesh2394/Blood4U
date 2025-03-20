@@ -84,13 +84,13 @@ const Register = () => {
                 <option value="">Select Role</option>
                 <option value="admin">Admin</option>
                 <option value="organisation">Organisation</option>
-                <option value="donar">Donor</option>
+                <option value="donor">Donor</option>
                 <option value="hospital">Hospital</option>
               </select>
             </div>
 
             {/* Name */}
-            {(formData.role === "admin" || formData.role === "donar") && (
+            {(formData.role === "admin" || formData.role === "donor") && (
               <div className="mb-3">
                 <label className="block text-sm font-medium text-gray-700">
                   Name

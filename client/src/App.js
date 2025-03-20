@@ -3,13 +3,59 @@ import { Routes, Route } from "react-router-dom";
 import PublicLayout from "./components/layout/PublicLayout";
 import AuthLayout from "./components/layout/AuthLayout";
 import PublicRoutes from "./components/routes/PublicRoutes";
-import ProtectedRoutes from "./components/routes/ProtectedRoutes";
 import DashboardLayout from "./components/layout/DashboardLayout";
+import PrivateRoute from "./components/routes/PrivateRoute";
+import LoadingScreen from "./components/LoadingScreen"; // Direct import for faster loading
 
-// Lazy loading components
-const LoadingScreen = lazy(() => import("./components/LoadingScreen "));
-// lazy laoding pages
-const Dashboard = lazy("./pages/public/Dashboard");
+// Lazy loading dashboards
+const AdminDashboard = lazy(() => import("./pages/dashboard/AdminDashboard"));
+const OrgDashboard = lazy(() => import("./pages/dashboard/OrgDashboard"));
+const DonorDashboard = lazy(() => import("./pages/dashboard/DonorDashboard"));
+const HospitalDashboard = lazy(() =>
+  import("./pages/dashboard/HospitalDashboard")
+);
+
+// Lazy load donor pages for donor
+const FindCenter = lazy(() => import("./pages/donor/FindCenter"));
+const ScheduleDonation = lazy(() => import("./pages/donor/ScheduleDonation"));
+const DonationHistory = lazy(() => import("./pages/donor/DonationHistory"));
+
+// Lazy load pages for organizations
+const AwarenessCampaigns = lazy(() =>
+  import("./pages/organization/AwarenessCampaigns")
+);
+const DonationStatistics = lazy(() =>
+  import("./pages/organization/DonationStatistics")
+);
+const OrganizeDrives = lazy(() =>
+  import("./pages/organization/OrganizeDrives")
+);
+const Volunteers = lazy(() => import("./pages/organization/Volunteers"));
+
+// Lazy load pages for admin
+const ManageDonations = lazy(() => import("./pages/admin/ManageDonations"));
+const ManageUsers = lazy(() => import("./pages/admin/ManageUsers"));
+const Reports = lazy(() => import("./pages/admin/Reports"));
+
+// Lazy load pages for hospitals
+const ManageAppointments = lazy(() =>
+  import("./pages/hospital/ManageAppointments")
+);
+const ManageBloodInventory = lazy(() =>
+  import("./pages/hospital/ManageBloodInventory")
+);
+const RequestBlood = lazy(() => import("./pages/hospital/RequestBlood"));
+
+// Common pages (Shared across roles)
+const FAQ = lazy(() => import("./pages/common/FAQ"));
+const Settings = lazy(() => import("./pages/common/Settings"));
+const ContactSupport = lazy(() => import("./pages/common/ContactSupport"));
+const Logout = lazy(() => import("./pages/common/Logout"));
+const PrivacyPolicy = lazy(() => import("./pages/common/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/common/TermsOfService"));
+const AboutUs = lazy(() => import("./pages/common/AboutUs"));
+
+// Lazy loading authentication & public pages
 const Home = lazy(() => import("./pages/public/Home"));
 const About = lazy(() => import("./pages/public/About"));
 const Eligibility = lazy(() => import("./pages/public/Eligibility"));
@@ -23,6 +69,7 @@ const App = () => {
   return (
     <Suspense fallback={<LoadingScreen />}>
       <Routes>
+        {/* Public Routes */}
         <Route element={<PublicRoutes />}>
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
@@ -34,16 +81,87 @@ const App = () => {
           </Route>
         </Route>
 
-        <Route element={<PublicRoutes />}>
-          <Route element={<AuthLayout />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Route>
+        {/* Authentication Routes */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
-        <Route element={<ProtectedRoutes />}>
-          <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+        {/* Dashboard Routes */}
+        <Route element={<DashboardLayout />}>
+          {/* Common routes for all roles */}
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/contact-support" element={<ContactSupport />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+
+          {/* Organization Routes */}
+          <Route element={<PrivateRoute allowedRoles={["organisation"]} />}>
+            <Route path="/org-dashboard" element={<OrgDashboard />} />
+            <Route
+              path="/org-dashboard/awareness-campaigns"
+              element={<AwarenessCampaigns />}
+            />
+            <Route path="/org-dashboard/volunteers" element={<Volunteers />} />
+            <Route
+              path="/org-dashboard/organize-drive"
+              element={<OrganizeDrives />}
+            />
+            <Route
+              path="/org-dashboard/donation-statistics"
+              element={<DonationStatistics />}
+            />
+          </Route>
+
+          {/* Donor Routes */}
+          <Route element={<PrivateRoute allowedRoles={["donor"]} />}>
+            <Route path="/donor-dashboard" element={<DonorDashboard />} />
+            <Route
+              path="/donor-dashboard/find-center"
+              element={<FindCenter />}
+            />
+            <Route
+              path="/donor-dashboard/schedule"
+              element={<ScheduleDonation />}
+            />
+            <Route
+              path="/donor-dashboard/history"
+              element={<DonationHistory />}
+            />
+          </Route>
+
+          {/* Hospital Routes */}
+          <Route element={<PrivateRoute allowedRoles={["hospital"]} />}>
+            <Route path="/hospital-dashboard" element={<HospitalDashboard />} />
+            <Route
+              path="/hospital-dashboard/request-blood"
+              element={<RequestBlood />}
+            />
+            <Route
+              path="/hospital-dashboard/manage-appointments"
+              element={<ManageAppointments />}
+            />
+            <Route
+              path="/hospital-dashboard/manage-blood-inventory"
+              element={<ManageBloodInventory />}
+            />
+          </Route>
+
+          {/* Admin Routes */}
+          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route
+              path="/admin-dashboard/manage-users"
+              element={<ManageUsers />}
+            />
+            <Route path="/admin-dashboard/reports" element={<Reports />} />
+            <Route
+              path="/admin-dashboard/manage-donations"
+              element={<ManageDonations />}
+            />
           </Route>
         </Route>
       </Routes>
