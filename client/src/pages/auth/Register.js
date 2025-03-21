@@ -53,25 +53,25 @@ const Register = () => {
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-lg"></div>
 
       {/* Container for Image & Form */}
-      <div className="relative bg-white bg-opacity-90 p-6 rounded-lg shadow-md max-w-4xl w-full flex z-10">
+      <div className="relative bg-white bg-opacity-90 p-6 rounded-lg shadow-md max-w-4xl w-full flex z-10 min-h-[500px] h-full">
         {/* Left Side - Image */}
-        <div className="hidden md:flex w-1/2">
+        <div className="hidden md:flex w-1/2 h-full">
           <img
             src="/assets/images/register-illustration.png"
             alt="Register"
-            className="w-full h-auto object-cover rounded-l-lg"
+            className="w-full h-full object-cover rounded-l-lg"
           />
         </div>
 
         {/* Right Side - Registration Form */}
-        <div className="w-full md:w-1/2 p-6">
+        <div className="w-full md:w-1/2 p-6 flex flex-col justify-between h-full">
           <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">
             Register
           </h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="flex flex-col h-full">
             {/* Role Selection */}
             <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-xm font-medium text-gray-700">
                 Role
               </label>
               <select
@@ -92,7 +92,7 @@ const Register = () => {
             {/* Name */}
             {(formData.role === "admin" || formData.role === "donor") && (
               <div className="mb-3">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-xm font-medium text-gray-700">
                   Name
                 </label>
                 <input
@@ -109,7 +109,7 @@ const Register = () => {
             {/* Organisation Name (Only for Organisations) */}
             {formData.role === "organisation" && (
               <div className="mb-3">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-xm font-medium text-gray-700">
                   Organisation Name
                 </label>
                 <input
@@ -126,7 +126,7 @@ const Register = () => {
             {/* Hospital Name (Only for Hospitals) */}
             {formData.role === "hospital" && (
               <div className="mb-3">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-xm font-medium text-gray-700">
                   Hospital Name
                 </label>
                 <input
@@ -142,7 +142,7 @@ const Register = () => {
 
             {/* Email */}
             <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-xm font-medium text-gray-700">
                 Email
               </label>
               <input
@@ -157,7 +157,7 @@ const Register = () => {
 
             {/* Password */}
             <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-xm font-medium text-gray-700">
                 Password
               </label>
               <input
@@ -172,7 +172,7 @@ const Register = () => {
 
             {/* Website (Optional) */}
             <div className="mb-3">
-              <label className="block text-sm font-medium">
+              <label className="block text-xm font-medium">
                 Website (Optional)
               </label>
               <input
@@ -186,7 +186,7 @@ const Register = () => {
 
             {/* Address */}
             <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-xm font-medium text-gray-700">
                 Address
               </label>
               <input
@@ -201,7 +201,7 @@ const Register = () => {
 
             {/* Phone */}
             <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-xm font-medium text-gray-700">
                 Phone
               </label>
               <input

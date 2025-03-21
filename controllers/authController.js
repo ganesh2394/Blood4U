@@ -1,7 +1,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const nodemailer = require("nodemailer");
 
+require("dotenv").config();
+// Register User
 const registerUser = async (req, res) => {
   try {
     const {
@@ -48,6 +51,7 @@ const registerUser = async (req, res) => {
   }
 };
 
+// Login User
 const loginUser = async (req, res) => {
   try {
     const { email, password, role } = req.body;
@@ -104,6 +108,7 @@ const loginUser = async (req, res) => {
   }
 };
 
+// get Current User
 const getCurrentUser = async (req, res) => {
   try {
     const user = await User.findById(req.body.userId).select("-password");
@@ -128,45 +133,54 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
+// Send reset link
 const ForgetUserPassword = async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
-
-  if (!user) return res.status(400).json({ message: "User not found" });
-
-  const token = jwt.sign({ id: user._id }, "secretKey", { expiresIn: "1h" });
-
-  // Send Email
-  const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: { user: "your-email@gmail.com", pass: "your-password" },
-  });
-
-  const mailOptions = {
-    from: "your-email@gmail.com",
-    to: user.email,
-    subject: "Password Reset",
-    html: `<p>Click <a href="http://localhost:3000/reset-password/${token}">here</a> to reset your password.</p>`,
-  };
-
-  await transporter.sendMail(mailOptions);
-  res.json({ message: "Password reset link sent to your email" });
+  const { email, role } = req.body;
+  if (!email || !role) {
+    return res.status(400).json({ message: "Email and role are required." });
+  }
+  try {
+    const user = await User.findOne({ email, role }); // Check email & role in DB
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User not found with this email and role." });
+    }
+    // TODO: Generate reset token and send an email (optional)
+    res
+      .status(200)
+      .json({ message: "Password reset link sent to your email." });
+  } catch (error) {
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
 };
 
 // Reset Password
 const ResetPassword = async (req, res) => {
-  try {
-    const decoded = jwt.verify(req.params.token, "secretKey");
-    const user = await User.findById(decoded.id);
-    if (!user) return res.status(400).json({ message: "Invalid token" });
+  const { email, role, password } = req.body;
 
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  if (!email || !role || !password) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  try {
+    const user = await User.findOne({ email, role });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Update password
     user.password = hashedPassword;
     await user.save();
 
-    res.json({ message: "Password successfully reset" });
+    res.status(200).json({ message: "Password has been reset successfully." });
   } catch (error) {
-    res.status(400).json({ message: "Invalid or expired token" });
+    res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
 

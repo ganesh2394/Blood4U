@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -8,9 +8,30 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [rememberMe, setRememberMe] = useState(false);
+
+  // Load saved login data if "Remember Me" was checked
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    const savedRole = localStorage.getItem("rememberedRole");
+    const isRemembered = localStorage.getItem("rememberMe") === "true";
+
+    if (isRemembered && savedEmail && savedRole) {
+      setFormData((prev) => ({
+        ...prev,
+        email: savedEmail,
+        role: savedRole,
+      }));
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRememberMe = (e) => {
+    setRememberMe(e.target.checked);
   };
 
   const handleSubmit = async (e) => {
@@ -27,6 +48,17 @@ const Login = () => {
         const userRole = data?.user?.role || "guest";
         localStorage.setItem("authToken", data.token);
         localStorage.setItem("role", userRole);
+
+        if (rememberMe) {
+          localStorage.setItem("rememberedEmail", formData.email);
+          localStorage.setItem("rememberedRole", formData.role);
+          localStorage.setItem("rememberMe", "true");
+        } else {
+          localStorage.removeItem("rememberedEmail");
+          localStorage.removeItem("rememberedRole");
+          localStorage.removeItem("rememberMe");
+        }
+
         alert("Login Successful");
 
         switch (data.user.role) {
@@ -68,7 +100,7 @@ const Login = () => {
       {/* Login Form */}
       <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center ">
         {/* Container for Image & Login Form */}
-        <div className="w-full max-w-4xl flex bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="w-full max-w-3xl flex bg-white shadow-lg rounded-lg overflow-hidden">
           {/* Left Side - Image */}
           <div className="w-1/2 hidden md:block">
             <img
@@ -84,7 +116,7 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
               {/* Role Selection */}
               <div className="mb-3">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-xm font-medium text-gray-700">
                   Role
                 </label>
                 <select
@@ -104,7 +136,7 @@ const Login = () => {
 
               {/* Email */}
               <div className="mb-3">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-xm font-medium text-gray-700">
                   Email
                 </label>
                 <input
@@ -119,7 +151,7 @@ const Login = () => {
 
               {/* Password */}
               <div className="mb-3">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-xm font-medium text-gray-700">
                   Password
                 </label>
                 <input
@@ -130,6 +162,25 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                 />
+              </div>
+
+              {/* Remember Me & Forgot Password in One Line */}
+              <div className="mb-3 flex justify-between items-center">
+                <label className="flex items-center text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    className="mr-1"
+                    checked={rememberMe}
+                    onChange={handleRememberMe}
+                  />
+                  Remember Me
+                </label>
+                <Link
+                  to="/forgot-password"
+                  className="text-blue-600 text-sm hover:underline"
+                >
+                  Forgot Password?
+                </Link>
               </div>
 
               {/* Submit Button */}

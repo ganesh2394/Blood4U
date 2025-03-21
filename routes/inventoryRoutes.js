@@ -1,48 +1,71 @@
 const express = require("express");
 const authMiddleware = require("../middlewares/authMiddleware");
+const roleMiddleware = require("../middlewares/roleMiddleware");
 const {
   createInventoryController,
   getInventoryController,
-  getDonarsController,
+  getDonorsController,
   getHospitalController,
-  getOrgnaisationController,
-  getOrgnaisationForHospitalController,
+  getOrganizationController,
+  getOrganizationForHospitalController,
   getInventoryHospitalController,
   getRecentInventoryController,
 } = require("../controllers/inventoryController");
 
 const router = express.Router();
 
-// Create Inventory Entry (Add Blood) - POST
-router.post("/create", authMiddleware, createInventoryController);
+//Only Admin, Hospital, and Organization can create inventory
+router.post(
+  "/create",
+  authMiddleware,
+  roleMiddleware(["admin", "hospital", "organization"]),
+  createInventoryController
+);
 
-//Get All Blood Inventory Records - GET
+//Any authenticated user can view inventory
 router.get("/all", authMiddleware, getInventoryController);
 
-//Get All Donors - GET
-router.get("/donors", authMiddleware, getDonarsController);
+//Only Admin can view donors
+router.get(
+  "/donors",
+  authMiddleware,
+  roleMiddleware(["admin"]),
+  getDonorsController
+);
 
-//Get All Hospitals - GET
-router.get("/hospitals", authMiddleware, getHospitalController);
+//Only Admin can view hospitals
+router.get(
+  "/hospitals",
+  authMiddleware,
+  roleMiddleware(["admin"]),
+  getHospitalController
+);
 
-//Get All Organizations - GET
-router.get("/organizations", authMiddleware, getOrgnaisationController);
+//Only Admin can view organizations
+router.get(
+  "/organizations",
+  authMiddleware,
+  roleMiddleware(["admin"]),
+  getOrganizationController
+);
 
-//Get Organizations for a Specific Hospital - GET
+//Organizations assigned to a hospital
 router.get(
   "/organizations-for-hospital",
   authMiddleware,
-  getOrgnaisationForHospitalController
+  roleMiddleware(["admin", "hospital"]),
+  getOrganizationForHospitalController
 );
 
-//Get Recent Inventory Records - GET
-router.get("/recent", authMiddleware, getRecentInventoryController);
-
-//Get Blood Inventory for a Specific Hospital - GET
+//Only hospitals can view their inventory
 router.get(
   "/hospital-inventory",
   authMiddleware,
+  roleMiddleware(["hospital"]),
   getInventoryHospitalController
 );
+
+// Any authenticated user can view recent inventory
+router.get("/recent", authMiddleware, getRecentInventoryController);
 
 module.exports = router;

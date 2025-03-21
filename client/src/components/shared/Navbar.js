@@ -34,8 +34,8 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a href="/register" className="hover:text-red-600 transition">
-              Register
+            <a href="/login" className="hover:text-red-600 transition">
+              Login
             </a>
           </li>
           <li>
@@ -95,8 +95,8 @@ const Navbar = () => {
               </a>
             </li>
             <li>
-              <a href="/register" className="block hover:text-red-600">
-                Register
+              <a href="/login" className="block hover:text-red-600">
+                Login
               </a>
             </li>
             <li>

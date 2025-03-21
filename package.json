@@ -4,13 +4,13 @@
   "description": "blood4u - blood bank management app",
   "main": "server.js",
   "scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
-  "start": "node server.js",
-  "server": "nodemon server.js",
-  "client": "npm start --prefix ./client",
-  "dev": "concurrently \"npm run server\" \"npm run client\"",
-  "build": "npm run build --prefix ./client"
-},
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix ./client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build --prefix ./client"
+  },
   "keywords": [
     "mern",
     "stack",
@@ -37,7 +37,8 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.10.0"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",

@@ -19,7 +19,7 @@ router.post("/login", loginUser);
 router.post("/forgot-password", ForgetUserPassword);
 
 // Reset Password
-router.post("/reset-password/:token", ResetPassword);
+router.post("/reset-password", ResetPassword);
 
 // Get Current User Route
 router.get("/current-user", authMiddleware, getCurrentUser);
