@@ -1,6 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaClock, FaHeart, FaHistory, FaTachometerAlt } from "react-icons/fa";
+import {
+  FaBox,
+  FaClock,
+  FaHeart,
+  FaHistory,
+  FaTachometerAlt,
+} from "react-icons/fa";
 import SidebarCommon from "../SidebarCommon";
 
 const DonorSidebar = () => {
@@ -26,6 +32,10 @@ const DonorSidebar = () => {
         <li className="flex items-center">
           <FaHistory className="mr-3" />
           <Link to="/donor-dashboard/history">Donation History</Link>
+        </li>
+        <li className="flex items-center">
+          <FaBox className="mr-3" />
+          <Link to="/donor-dashboard/inventory">Inventory</Link>
         </li>
       </ul>
       <div className="mt-auto">

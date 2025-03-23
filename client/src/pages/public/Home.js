@@ -5,7 +5,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 const Home = () => {
   const sliderSettings = {
     dots: true,
@@ -115,29 +114,160 @@ const Home = () => {
       </section>
 
       {/* Blood Type Compatibility Section */}
-      <section className="bg-white py-16 px-6">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-          Understanding Blood Groups
+      <section className="bg-gradient-to-r from-blue-100 to-blue-50 py-16 px-6">
+        <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8">
+          Understanding Blood Groups & Compatibility
         </h2>
+
+        <p className="text-gray-600 max-w-3xl mx-auto text-center mb-12 text-lg">
+          Knowing your blood type is crucial for safe transfusions and
+          donations. Here’s how blood groups work and their compatibility.
+        </p>
+
+        {/* Blood Groups and Compatibility */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          <div>
-            <h3 className="text-xl font-semibold text-red-600">Blood Types</h3>
+          <div className="bg-white shadow-lg p-6 rounded-lg">
+            <h3 className="text-2xl font-semibold text-red-600 flex items-center">
+              <svg
+                className="w-6 h-6 mr-2 text-red-600"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 8c-2.21 0-4 1.79-4 4m8 0a4 4 0 00-8 0m4-8v1m0 10v1m5-3h1m-12 0h1"
+                ></path>
+              </svg>
+              Blood Types
+            </h3>
             <p className="text-gray-700 mt-2">
-              There are four main blood groups: A, B, AB, and O. Blood groups
-              are classified based on the presence or absence of antigens on the
-              red blood cells.
+              There are four main blood groups: <strong>A, B, AB, and O</strong>
+              . Blood groups are classified based on the presence or absence of
+              **antigens** (A and B) on red blood cells.
+            </p>
+            <p className="text-gray-700 mt-2">
+              The **Rh factor** (positive or negative) further classifies blood
+              into **eight types**: A+, A-, B+, B-, AB+, AB-, O+, and O-.
             </p>
           </div>
-          <div>
-            <h3 className="text-xl font-semibold text-red-600">
+
+          <div className="bg-white shadow-lg p-6 rounded-lg">
+            <h3 className="text-2xl font-semibold text-red-600 flex items-center">
+              <svg
+                className="w-6 h-6 mr-2 text-red-600"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                ></path>
+              </svg>
               Compatibility
             </h3>
             <p className="text-gray-700 mt-2">
-              - O- is the universal donor.
-              <br />
-              - AB+ is the universal recipient.
-              <br />- Blood type matching is crucial for safe transfusions.
+              - **O-** is the <strong>universal donor</strong> (can donate to
+              all blood types).
+              <br />- **AB+** is the <strong>universal recipient</strong> (can
+              receive from all blood types).
+              <br />- Matching blood types is essential to **prevent transfusion
+              reactions**.
             </p>
+          </div>
+        </div>
+
+        {/* Blood Compatibility Chart */}
+        <div className="mt-12">
+          <h3 className="text-2xl font-semibold text-center text-red-600 mb-4">
+            Blood Donation Compatibility Chart
+          </h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-gray-300 text-gray-800 text-center bg-white shadow-md">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="border border-gray-300 px-4 py-2">
+                    Blood Type
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2">
+                    Can Donate To
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2">
+                    Can Receive From
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border px-4 py-2">O-</td>
+                  <td className="border px-4 py-2">All</td>
+                  <td className="border px-4 py-2">O-</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2">O+</td>
+                  <td className="border px-4 py-2">O+, A+, B+, AB+</td>
+                  <td className="border px-4 py-2">O+, O-</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2">A-</td>
+                  <td className="border px-4 py-2">A-, A+, AB-, AB+</td>
+                  <td className="border px-4 py-2">A-, O-</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2">A+</td>
+                  <td className="border px-4 py-2">A+, AB+</td>
+                  <td className="border px-4 py-2">A+, A-, O+, O-</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2">B-</td>
+                  <td className="border px-4 py-2">B-, B+, AB-, AB+</td>
+                  <td className="border px-4 py-2">B-, O-</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2">B+</td>
+                  <td className="border px-4 py-2">B+, AB+</td>
+                  <td className="border px-4 py-2">B+, B-, O+, O-</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2">AB-</td>
+                  <td className="border px-4 py-2">AB-, AB+</td>
+                  <td className="border px-4 py-2">AB-, A-, B-, O-</td>
+                </tr>
+                <tr>
+                  <td className="border px-4 py-2">AB+</td>
+                  <td className="border px-4 py-2">AB+</td>
+                  <td className="border px-4 py-2">All</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Importance of Blood Donation */}
+        <div className="mt-12 text-center max-w-3xl mx-auto">
+          <h3 className="text-xl font-semibold text-red-600 mb-4">
+            Why Blood Donation Matters?
+          </h3>
+          <p className="text-gray-700">
+            Blood donations save lives in **accidents, surgeries, childbirth,
+            and medical conditions like leukemia and anemia**.
+          </p>
+          <p className="text-gray-700 mt-4">
+            **Did you know?** Less than **10% of eligible donors** actually
+            donate blood! Consider making a difference today.
+          </p>
+          <div className="mt-6">
+            <a
+              href="/donate"
+              className="px-6 py-3 bg-red-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-red-700 transition duration-300"
+            >
+              Donate Blood Now
+            </a>
           </div>
         </div>
       </section>
@@ -172,64 +302,211 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Why Donate Section */}
-      <section className="bg-gray-200 py-16 px-6">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+      {/* Why Donate Blood Section */}
+      <section className="bg-gradient-to-r from-blue-100 to-gray-100 py-16 px-6">
+        <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8">
           Why Donate Blood?
         </h2>
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-red-600">
-              1. Save Lives
+        <p className="text-gray-600 max-w-3xl mx-auto text-center mb-12 text-lg">
+          Blood donation is a simple act that creates a huge impact. Here’s why
+          your donation matters.
+        </p>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          {/* Card 1 */}
+          <div className="bg-white shadow-xl p-6 rounded-xl flex flex-col items-center transform hover:scale-105 transition duration-300">
+            <div className="bg-red-600 text-white p-4 rounded-full">
+              <svg
+                className="w-12 h-12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 8c-2.21 0-4 1.79-4 4m8 0a4 4 0 00-8 0m4-8v1m0 10v1m5-3h1m-12 0h1"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-red-600 mt-4">
+              Save Lives
             </h3>
-            <p className="text-gray-700 mt-2">
-              One donation can save up to three lives.
+            <p className="text-gray-700 mt-2 text-center">
+              A single donation can save up to <strong>three lives</strong> in
+              emergencies.
             </p>
           </div>
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-red-600">
-              2. Improve Health
+
+          {/* Card 2 */}
+          <div className="bg-white shadow-xl p-6 rounded-xl flex flex-col items-center transform hover:scale-105 transition duration-300">
+            <div className="bg-red-600 text-white p-4 rounded-full">
+              <svg
+                className="w-12 h-12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-red-600 mt-4">
+              Improve Health
             </h3>
-            <p className="text-gray-700 mt-2">
-              Regular donations help maintain healthy iron levels.
+            <p className="text-gray-700 mt-2 text-center">
+              Regular donations help maintain{" "}
+              <strong>healthy iron levels</strong> and reduce heart risks.
             </p>
           </div>
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-red-600">
-              3. Support Patients
+
+          {/* Card 3 */}
+          <div className="bg-white shadow-xl p-6 rounded-xl flex flex-col items-center transform hover:scale-105 transition duration-300">
+            <div className="bg-red-600 text-white p-4 rounded-full">
+              <svg
+                className="w-12 h-12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-red-600 mt-4">
+              Support Patients
             </h3>
-            <p className="text-gray-700 mt-2">
-              Help those with medical conditions like cancer or surgery
-              patients.
+            <p className="text-gray-700 mt-2 text-center">
+              Donated blood helps{" "}
+              <strong>
+                cancer patients, accident victims, and surgery patients
+              </strong>
+              .
             </p>
           </div>
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-red-600">
-              4. Strengthen Community
+
+          {/* Card 4 */}
+          <div className="bg-white shadow-xl p-6 rounded-xl flex flex-col items-center transform hover:scale-105 transition duration-300">
+            <div className="bg-red-600 text-white p-4 rounded-full">
+              <svg
+                className="w-12 h-12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4v16m8-8H4"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-red-600 mt-4">
+              Strengthen Community
             </h3>
-            <p className="text-gray-700 mt-2">
-              Contribute to building a stronger and healthier society.
+            <p className="text-gray-700 mt-2 text-center">
+              Creating a <strong>stronger and healthier society</strong> starts
+              with a simple blood donation.
             </p>
           </div>
         </div>
       </section>
 
       {/* Statistics Section */}
-      <section className="py-16 px-6 text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-8">Our Impact</h2>
+      <section className="py-16 px-6 bg-gradient-to-r from-gray-100 to-gray-50 text-center">
+        <h2 className="text-4xl font-extrabold text-gray-800 mb-8">
+          Our Life-Saving Impact
+        </h2>
+        <p className="text-gray-600 max-w-2xl mx-auto mb-12 text-lg">
+          Every donation makes a difference. Here’s how we’ve helped communities
+          across the nation with life-saving blood donations.
+        </p>
+
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <div className="bg-white shadow-lg p-6 rounded-lg">
-            <h3 className="text-4xl font-bold text-red-600">10,000+</h3>
-            <p className="text-gray-700">Successful Donations</p>
+          <div className="bg-white shadow-xl p-8 rounded-xl transform hover:scale-105 transition duration-300">
+            <div className="flex justify-center mb-4">
+              <svg
+                className="w-12 h-12 text-red-600"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 8c-2.21 0-4 1.79-4 4m8 0a4 4 0 00-8 0m4-8v1m0 10v1m5-3h1m-12 0h1"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-5xl font-extrabold text-red-600">10,000+</h3>
+            <p className="text-gray-700 text-lg font-medium">
+              Successful Donations
+            </p>
           </div>
-          <div className="bg-white shadow-lg p-6 rounded-lg">
-            <h3 className="text-4xl font-bold text-red-600">5,000+</h3>
-            <p className="text-gray-700">Registered Donors</p>
+
+          <div className="bg-white shadow-xl p-8 rounded-xl transform hover:scale-105 transition duration-300">
+            <div className="flex justify-center mb-4">
+              <svg
+                className="w-12 h-12 text-red-600"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-5xl font-extrabold text-red-600">5,000+</h3>
+            <p className="text-gray-700 text-lg font-medium">
+              Registered Donors
+            </p>
           </div>
-          <div className="bg-white shadow-lg p-6 rounded-lg">
-            <h3 className="text-4xl font-bold text-red-600">500+</h3>
-            <p className="text-gray-700">Lives Saved Weekly</p>
+
+          <div className="bg-white shadow-xl p-8 rounded-xl transform hover:scale-105 transition duration-300">
+            <div className="flex justify-center mb-4">
+              <svg
+                className="w-12 h-12 text-red-600"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                ></path>
+              </svg>
+            </div>
+            <h3 className="text-5xl font-extrabold text-red-600">500+</h3>
+            <p className="text-gray-700 text-lg font-medium">
+              Lives Saved Weekly
+            </p>
           </div>
+        </div>
+
+        <div className="mt-12">
+          <a
+            href="/donate"
+            className="px-6 py-3 bg-red-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-red-700 transition duration-300"
+          >
+            Join Us & Save Lives
+          </a>
         </div>
       </section>
 

@@ -6,6 +6,7 @@ import {
   FaHandsHelping,
   FaCalendarAlt,
   FaChartBar,
+  FaBox,
 } from "react-icons/fa";
 import SidebarCommon from "../SidebarCommon";
 
@@ -39,6 +40,10 @@ const OrganisationSidebar = () => {
           <Link to="/org-dashboard/donation-statistics">
             Donation Statistics
           </Link>
+        </li>
+        <li className="flex items-center">
+          <FaBox className="mr-3" />
+          <Link to="/org-dashboard/inventory">Manage Inventory</Link>
         </li>
       </ul>
       <div className="mt-auto">

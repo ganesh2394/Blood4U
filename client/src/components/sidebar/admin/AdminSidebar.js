@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaUsers, FaTachometerAlt, FaClipboardList, FaHandHoldingHeart } from "react-icons/fa";
+import { FaUsers, FaTachometerAlt, FaClipboardList, FaHandHoldingHeart, FaBox } from "react-icons/fa";
 import SidebarCommon from "../SidebarCommon";
 
 const AdminSidebar = () => {
@@ -25,6 +25,10 @@ const AdminSidebar = () => {
         <li className="flex items-center">
           <FaHandHoldingHeart className="mr-3" />
           <Link to="/admin-dashboard/manage-donations">Manage Donations</Link>
+        </li>
+        <li className="flex items-center">
+          <FaBox className="mr-3" />
+          <Link to="/admin-dashboard/inventory">Manage Inventory</Link>
         </li>
       </ul>
       <div className="mt-auto">

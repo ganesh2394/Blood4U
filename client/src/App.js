@@ -6,6 +6,7 @@ import PublicRoutes from "./components/routes/PublicRoutes";
 import DashboardLayout from "./components/layout/DashboardLayout";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import LoadingScreen from "./components/LoadingScreen"; // Direct import for faster loading
+import InventoryForm from "./components/form/InventoryForm";
 
 // Lazy loading dashboards
 const AdminDashboard = lazy(() => import("./pages/dashboard/AdminDashboard"));
@@ -41,9 +42,7 @@ const Reports = lazy(() => import("./pages/admin/Reports"));
 const ManageAppointments = lazy(() =>
   import("./pages/hospital/ManageAppointments")
 );
-const ManageBloodInventory = lazy(() =>
-  import("./pages/hospital/ManageBloodInventory")
-);
+
 const RequestBlood = lazy(() => import("./pages/hospital/RequestBlood"));
 
 // Common pages (Shared across roles)
@@ -118,6 +117,10 @@ const App = () => {
               path="/org-dashboard/donation-statistics"
               element={<DonationStatistics />}
             />
+            <Route
+              path="/org-dashboard/inventory"
+              element={<InventoryForm userRole={"organisation"} />}
+            />
           </Route>
 
           {/* Donor Routes */}
@@ -135,6 +138,10 @@ const App = () => {
               path="/donor-dashboard/history"
               element={<DonationHistory />}
             />
+            <Route
+              path="/donor-dashboard/inventory"
+              element={<InventoryForm userRole={"donor"} />}
+            />
           </Route>
 
           {/* Hospital Routes */}
@@ -149,8 +156,8 @@ const App = () => {
               element={<ManageAppointments />}
             />
             <Route
-              path="/hospital-dashboard/manage-blood-inventory"
-              element={<ManageBloodInventory />}
+              path="/hospital-dashboard/inventory"
+              element={<InventoryForm userRole={"hospital"} />}
             />
           </Route>
 
@@ -165,6 +172,10 @@ const App = () => {
             <Route
               path="/admin-dashboard/manage-donations"
               element={<ManageDonations />}
+            />
+            <Route
+              path="/admin-dashboard/inventory"
+              element={<InventoryForm userRole={"admin"} />}
             />
           </Route>
         </Route>

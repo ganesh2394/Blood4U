@@ -24,7 +24,7 @@ const HospitalSidebar = () => {
         </li>
         <li className="flex items-center">
           <FaBox className="mr-3" />
-          <Link to="/hospital-dashboard/manage-blood-inventory">Inventory</Link>
+          <Link to="/hospital-dashboard/inventory">Inventory</Link>
         </li>
       </ul>
       <div className="mt-auto">
