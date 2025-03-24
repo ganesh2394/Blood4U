@@ -102,7 +102,7 @@ const App = () => {
           <Route path="/terms-of-service" element={<TermsOfService />} />
 
           {/* Organization Routes */}
-          <Route element={<PrivateRoute allowedRoles={["organisation"]} />}>
+          <Route element={<PrivateRoute allowedRoles={["organization"]} />}>
             <Route path="/org-dashboard" element={<OrgDashboard />} />
             <Route
               path="/org-dashboard/awareness-campaigns"
@@ -119,7 +119,7 @@ const App = () => {
             />
             <Route
               path="/org-dashboard/inventory"
-              element={<InventoryForm userRole={"organisation"} />}
+              element={<InventoryForm userRole={"organization"} />}
             />
           </Route>
 

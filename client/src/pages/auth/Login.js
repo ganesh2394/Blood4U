@@ -59,18 +59,14 @@ const Login = () => {
           localStorage.removeItem("rememberMe");
         }
 
-        toast.success("Login Successfully", {
-          duration: 3000,
-          position: "top-right",
-          style: { background: "#28a745", color: "#fff" },
-        });
+        toast.success("Login Successfully");
 
         setTimeout(() => {
           switch (data.user.role) {
             case "admin":
               navigate("/admin-dashboard");
               break;
-            case "organisation":
+            case "organization":
               navigate("/org-dashboard");
               break;
             case "donor":
@@ -135,7 +131,7 @@ const Login = () => {
                 >
                   <option value="">Select Role</option>
                   <option value="admin">Admin</option>
-                  <option value="organisation">Organisation</option>
+                  <option value="organization">Organization</option>
                   <option value="donor">Donor</option>
                   <option value="hospital">Hospital</option>
                 </select>

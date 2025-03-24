@@ -20,9 +20,9 @@ const createInventoryController = async (req, res) => {
     }
 
     if (inventoryType === "out") {
-      const organisation = new mongoose.Types.ObjectId(userId);
-      const totalIn = await getTotalBlood(organisation, bloodGroup, "in");
-      const totalOut = await getTotalBlood(organisation, bloodGroup, "out");
+      const organization = new mongoose.Types.ObjectId(userId);
+      const totalIn = await getTotalBlood(organization, bloodGroup, "in");
+      const totalOut = await getTotalBlood(organization, bloodGroup, "out");
       const availableQuantity = totalIn - totalOut;
 
       if (availableQuantity < quantity) {
@@ -52,9 +52,9 @@ const createInventoryController = async (req, res) => {
 };
 
 // Utility function to get total blood quantity
-const getTotalBlood = async (organisation, bloodGroup, type) => {
+const getTotalBlood = async (organization, bloodGroup, type) => {
   const total = await Inventory.aggregate([
-    { $match: { organisation, inventoryType: type, bloodGroup } },
+    { $match: { organization, inventoryType: type, bloodGroup } },
     { $group: { _id: "$bloodGroup", total: { $sum: "$quantity" } } },
   ]);
   return total[0]?.total || 0;
@@ -63,7 +63,7 @@ const getTotalBlood = async (organisation, bloodGroup, type) => {
 // GET ALL BLOOD RECORDS
 const getInventoryController = async (req, res) => {
   try {
-    const inventory = await Inventory.find({ organisation: req.body.userId })
+    const inventory = await Inventory.find({ organization: req.body.userId })
       .populate("donor hospital")
       .sort({ createdAt: -1 });
     return res.status(200).json({ success: true, inventory });
@@ -81,7 +81,7 @@ const getInventoryController = async (req, res) => {
 const getDonorsController = async (req, res) => {
   try {
     const donorIds = await Inventory.distinct("donor", {
-      organisation: req.body.userId,
+      organization: req.body.userId,
     });
     const donors = await User.find({ _id: { $in: donorIds } });
     return res.status(200).json({ success: true, donors });
@@ -99,7 +99,7 @@ const getDonorsController = async (req, res) => {
 const getHospitalController = async (req, res) => {
   try {
     const hospitalIds = await Inventory.distinct("hospital", {
-      organisation: req.body.userId,
+      organization: req.body.userId,
     });
     const hospitals = await User.find({ _id: { $in: hospitalIds } });
     return res.status(200).json({ success: true, hospitals });
@@ -116,7 +116,7 @@ const getHospitalController = async (req, res) => {
 // GET ORGANIZATIONS
 const getOrganizationController = async (req, res) => {
   try {
-    const orgIds = await Inventory.distinct("organisation", {
+    const orgIds = await Inventory.distinct("organization", {
       donor: req.body.userId,
     });
     const organizations = await User.find({ _id: { $in: orgIds } });
@@ -134,7 +134,7 @@ const getOrganizationController = async (req, res) => {
 // GET ORGANIZATIONS FOR A HOSPITAL
 const getOrganizationForHospitalController = async (req, res) => {
   try {
-    const orgIds = await Inventory.distinct("organisation", {
+    const orgIds = await Inventory.distinct("organization", {
       hospital: req.body.userId,
     });
     const organizations = await User.find({ _id: { $in: orgIds } });
@@ -153,7 +153,7 @@ const getOrganizationForHospitalController = async (req, res) => {
 const getInventoryHospitalController = async (req, res) => {
   try {
     const inventory = await Inventory.find(req.body.filters)
-      .populate("donor hospital organisation")
+      .populate("donor hospital organization")
       .sort({ createdAt: -1 });
     return res.status(200).json({ success: true, inventory });
   } catch (error) {
@@ -169,7 +169,7 @@ const getInventoryHospitalController = async (req, res) => {
 // GET RECENT BLOOD RECORDS
 const getRecentInventoryController = async (req, res) => {
   try {
-    const inventory = await Inventory.find({ organisation: req.body.userId })
+    const inventory = await Inventory.find({ organization: req.body.userId })
       .limit(5)
       .sort({ createdAt: -1 });
     return res.status(200).json({ success: true, inventory });

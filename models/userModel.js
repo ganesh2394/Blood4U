@@ -5,25 +5,28 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: [true, "Role is required"],
-      enum: ["admin", "organisation", "donor", "hospital"],
+      enum: ["admin", "organization", "donor", "hospital"],
     },
     name: {
       type: String,
       required: function () {
         return this.role === "admin" || this.role === "donor";
       },
+      default: "",
     },
-    organisationName: {
+    organizationName: {
       type: String,
       required: function () {
-        return this.role === "organisation";
+        return this.role === "organization";
       },
+      default: "",
     },
     hospitalName: {
       type: String,
       required: function () {
         return this.role === "hospital";
       },
+      default: "",
     },
     email: {
       type: String,

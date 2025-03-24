@@ -1,7 +1,7 @@
 import React from "react";
 
 const OrgDashboard = () => {
-  return <div>Organisation Dashboard</div>;
+  return <div>Organization Dashboard</div>;
 };
 
 export default OrgDashboard;

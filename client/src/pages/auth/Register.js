@@ -6,7 +6,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     role: "",
     name: "",
-    organisationName: "",
+    organizationName: "",
     hospitalName: "",
     email: "",
     password: "",
@@ -16,7 +16,11 @@ const Register = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -87,7 +91,7 @@ const Register = () => {
               >
                 <option value="">Select Role</option>
                 <option value="admin">Admin</option>
-                <option value="organisation">Organisation</option>
+                <option value="organization">Organization</option>
                 <option value="donor">Donor</option>
                 <option value="hospital">Hospital</option>
               </select>
@@ -111,17 +115,17 @@ const Register = () => {
             )}
 
             {/* Organisation Name (Only for Organisations) */}
-            {formData.role === "organisation" && (
+            {formData.role === "organization" && (
               <div className="mb-3">
                 <label className="block text-xm font-medium text-gray-700">
-                  Organisation Name
+                  Organization Name
                 </label>
                 <input
                   type="text"
-                  name="organisationName"
+                  name="organizationName"
                   required
                   className="w-full border p-2 rounded"
-                  value={formData.organisationName}
+                  value={formData.organizationName || ""}
                   onChange={handleChange}
                 />
               </div>
@@ -138,7 +142,7 @@ const Register = () => {
                   name="hospitalName"
                   required
                   className="w-full border p-2 rounded"
-                  value={formData.hospitalName}
+                  value={formData.hospitalName || ""}
                   onChange={handleChange}
                 />
               </div>

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Volunteers = () => {
-  return <div>Organisation Volunteers Here....</div>;
+  return <div>Organization Volunteers Here....</div>;
 };
 
 export default Volunteers;

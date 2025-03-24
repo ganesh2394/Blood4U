@@ -57,7 +57,7 @@ const ForgotPassword = () => {
           <option value="admin">Admin</option>
           <option value="donor">Donor</option>
           <option value="hospital">Hospital</option>
-          <option value="organisation">Organisation</option>
+          <option value="organization">Organization</option>
         </select>
         <button
           type="submit"

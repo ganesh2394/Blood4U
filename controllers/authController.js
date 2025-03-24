@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
     const {
       role,
       name,
-      organisationName,
+      organizationName,
       hospitalName,
       email,
       password,
@@ -33,7 +33,7 @@ const registerUser = async (req, res) => {
     const user = new User({
       role,
       name,
-      organisationName,
+      organizationName,
       hospitalName,
       email,
       password: hashedPassword,
@@ -184,10 +184,77 @@ const ResetPassword = async (req, res) => {
   }
 };
 
+// Get All Users
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+// Delete User
+const deleteUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findById(id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    await User.findByIdAndDelete(id);
+
+    return res
+      .status(200)
+      .json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Delete User Error:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    // Check if user exists
+    const user = await User.findById(id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    // Update user data
+    const updatedUser = await User.findByIdAndUpdate(id, updatedData, {
+      new: true,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Update User Error:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
 module.exports = {
+  deleteUser,
   registerUser,
   loginUser,
   getCurrentUser,
   ForgetUserPassword,
   ResetPassword,
+  getAllUsers,
+  updateUser,
 };
