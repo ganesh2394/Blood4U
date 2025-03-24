@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Toaster, toast } from "react-hot-toast";
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -31,14 +32,16 @@ const Register = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert("Registration Successful");
-        navigate("/login");
+        toast.success("Registration Successful");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       } else {
-        alert(data.message || "Registration Failed");
+        toast.error(data.message || "Registration Failed");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -49,6 +52,7 @@ const Register = () => {
         backgroundImage: "url('/assets/images/background1.png')",
       }}
     >
+      <Toaster position="top-right" reverseOrder={false} />
       {/* Overlay for Blur Effect */}
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-lg"></div>
 

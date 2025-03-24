@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-
+import { Toaster, toast } from "react-hot-toast";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -59,30 +59,36 @@ const Login = () => {
           localStorage.removeItem("rememberMe");
         }
 
-        alert("Login Successful");
+        toast.success("Login Successfully", {
+          duration: 3000,
+          position: "top-right",
+          style: { background: "#28a745", color: "#fff" },
+        });
 
-        switch (data.user.role) {
-          case "admin":
-            navigate("/admin-dashboard");
-            break;
-          case "organisation":
-            navigate("/org-dashboard");
-            break;
-          case "donor":
-            navigate("/donor-dashboard");
-            break;
-          case "hospital":
-            navigate("/hospital-dashboard");
-            break;
-          default:
-            navigate("/");
-        }
+        setTimeout(() => {
+          switch (data.user.role) {
+            case "admin":
+              navigate("/admin-dashboard");
+              break;
+            case "organisation":
+              navigate("/org-dashboard");
+              break;
+            case "donor":
+              navigate("/donor-dashboard");
+              break;
+            case "hospital":
+              navigate("/hospital-dashboard");
+              break;
+            default:
+              navigate("/");
+          }
+        }, 2000);
       } else {
-        alert(data.message || "Login Failed");
+        toast.error(data.message || "Login Failed");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -94,6 +100,7 @@ const Login = () => {
         backgroundSize: "cover",
       }}
     >
+      <Toaster position="top-right" reverseOrder={false} />
       {/* Overlay for Blur Effect */}
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-lg"></div>
 
