@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast, Toaster } from "react-hot-toast";
 import {
   FaQuestionCircle,
   FaEnvelope,
@@ -13,13 +14,27 @@ import {
 
 const SidebarCommon = () => {
   const navigate = useNavigate();
+  const hasLoggedOut = useRef(false);
 
   const handleLogout = () => {
-    navigate("/logout");
+    if (!hasLoggedOut.current) {
+      hasLoggedOut.current = true;
+
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
+
+      toast.success("You have been logged out successfully.");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
   };
 
   return (
     <div className="mt-auto">
+      <Toaster position="top-right" reverseOrder={false} />
       <ul className="space-y-3">
         <li className="flex items-center">
           <FaUser className="mr-2" />

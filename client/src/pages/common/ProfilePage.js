@@ -2,14 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
-import {
-  FaEnvelope,
-  FaPhone,
-  FaMapMarkerAlt,
-  FaBuilding,
-  FaHospital,
-  FaGlobe,
-} from "react-icons/fa";
+import { Toaster, toast } from "react-hot-toast";
+import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -21,7 +15,10 @@ const ProfilePage = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     localStorage.removeItem("role");
-    navigate("/");
+    toast.success("You have been logged out successfully.");
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
   };
 
   useEffect(() => {
@@ -49,9 +46,7 @@ const ProfilePage = () => {
         }
       } catch (error) {
         console.error("Error fetching user:", error);
-        message.error(
-          error.response?.data?.message || "Failed to fetch user data."
-        );
+        toast.error("Failed to fetch user data.");
       }
     };
     fetchUserData();
@@ -77,16 +72,15 @@ const ProfilePage = () => {
       );
       setUser(response.data.user);
       setEditMode(false);
-      message.success("Profile updated successfully");
+      toast.success("Profile updated successfully! 🎉");
     } catch (error) {
-      message.error(
-        error.response?.data?.message || "Failed to update profile"
-      );
+      toast.error(error.response?.data?.message || "Failed to update profile");
     }
   };
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
         <div className="flex justify-center">
           <div className="w-24 h-24 rounded-full outline outline-blue-500 bg-gray-300 flex items-center justify-center text-gray-600 text-4xl font-bold">

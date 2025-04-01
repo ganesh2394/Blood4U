@@ -2,7 +2,7 @@ import React from "react";
 import DonorSidebar from "./donor/DonorSidebar";
 import AdminSidebar from "./admin/AdminSidebar";
 import HospitalSidebar from "./hospital/HospitalSidebar";
-import OrganisationSidebar from "./organisation/OrganisationSidebar";
+import OrganizationSidebar from "./organisation/OrganisationSidebar";
 
 const Sidebar = ({ role }) => {
   const renderSidebar = () => {
@@ -13,8 +13,8 @@ const Sidebar = ({ role }) => {
         return <AdminSidebar />;
       case "hospital":
         return <HospitalSidebar />;
-      case "organisation":
-        return <OrganisationSidebar />;
+      case "organization":
+        return <OrganizationSidebar />;
       default:
         return <DonorSidebar />;
     }

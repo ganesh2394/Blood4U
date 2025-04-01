@@ -10,11 +10,11 @@ import {
 } from "react-icons/fa";
 import SidebarCommon from "../SidebarCommon";
 
-const OrganisationSidebar = () => {
+const OrganizationSidebar = () => {
   return (
     <div className="h-screen w-64 bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-lg fixed p-6 flex flex-col">
       <h2 className="text-2xl font-bold mb-6 text-red-600 dark:text-red-400">
-        Blood4U - Organisation
+        Blood4U - Organization
       </h2>
       <ul className="space-y-4">
         <li className="flex items-center ">
@@ -53,4 +53,4 @@ const OrganisationSidebar = () => {
   );
 };
 
-export default OrganisationSidebar;
+export default OrganizationSidebar;
