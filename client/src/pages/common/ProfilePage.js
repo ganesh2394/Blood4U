@@ -92,12 +92,17 @@ const ProfilePage = () => {
             <input
               type="text"
               name="name"
-              value={formData.name}
+              value={
+                formData.name ||
+                formData.hospitalName ||
+                formData.organizationName ||
+                ""
+              }
               onChange={handleChange}
               className="border rounded p-1 w-full"
             />
           ) : (
-            user.name
+            user.name || user.hospitalName || user.organizationName
           )}
         </h2>
         <p className="text-center text-indigo-700">{user.role.toUpperCase()}</p>
