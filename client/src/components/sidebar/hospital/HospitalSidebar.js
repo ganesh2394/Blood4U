@@ -9,7 +9,7 @@ const HospitalSidebar = () => {
       <h2 className="text-2xl font-bold mb-6 text-red-600 dark:text-red-400">
         Blood4U - Hospital
       </h2>
-      <ul className="space-y-3">
+      <ul className="space-y-4">
         <li className="flex items-center">
           <FaHospital className="mr-3" />
           <Link to="/hospital-dashboard">Dashboard</Link>
@@ -27,7 +27,7 @@ const HospitalSidebar = () => {
           <Link to="/hospital-dashboard/inventory">Inventory</Link>
         </li>
       </ul>
-      <div className="mt-auto">
+      <div className="mt-4">
         <SidebarCommon />
       </div>
     </div>

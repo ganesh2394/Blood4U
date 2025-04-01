@@ -16,7 +16,7 @@ const OrganisationSidebar = () => {
       <h2 className="text-2xl font-bold mb-6 text-red-600 dark:text-red-400">
         Blood4U - Organisation
       </h2>
-      <ul className="space-y-3">
+      <ul className="space-y-4">
         <li className="flex items-center ">
           <FaTachometerAlt className="mr-3" />
           <Link to="/org-dashboard">Dashboard</Link>
@@ -46,7 +46,7 @@ const OrganisationSidebar = () => {
           <Link to="/org-dashboard/inventory">Manage Inventory</Link>
         </li>
       </ul>
-      <div className="mt-auto">
+      <div className="mt-4">
         <SidebarCommon />
       </div>
     </div>

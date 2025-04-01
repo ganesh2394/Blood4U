@@ -15,7 +15,7 @@ const DonorSidebar = () => {
       <h2 className="text-2xl font-bold mb-6 text-red-600 dark:text-red-400">
         Blood4U - Donor
       </h2>
-      <ul className="space-y-3">
+      <ul className="space-y-4">
         <li className="flex items-center">
           <FaTachometerAlt className="mr-3" />
           <Link to="/donor-dashboard">Dashboard</Link>
@@ -38,7 +38,7 @@ const DonorSidebar = () => {
           <Link to="/donor-dashboard/inventory">Inventory</Link>
         </li>
       </ul>
-      <div className="mt-auto">
+      <div className="mt-4">
         <SidebarCommon />
       </div>
     </div>

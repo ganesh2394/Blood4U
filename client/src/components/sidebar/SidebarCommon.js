@@ -8,6 +8,7 @@ import {
   FaInfoCircle,
   FaShieldAlt,
   FaFileContract,
+  FaUser,
 } from "react-icons/fa";
 
 const SidebarCommon = () => {
@@ -20,6 +21,10 @@ const SidebarCommon = () => {
   return (
     <div className="mt-auto">
       <ul className="space-y-3">
+        <li className="flex items-center">
+          <FaUser className="mr-2" />
+          <Link to="/profile">Profile</Link>
+        </li>
         <li className="flex items-center">
           <FaQuestionCircle className="mr-2" />
           <Link to="/faq">FAQ</Link>

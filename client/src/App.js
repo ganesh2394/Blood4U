@@ -53,6 +53,7 @@ const Logout = lazy(() => import("./pages/common/Logout"));
 const PrivacyPolicy = lazy(() => import("./pages/common/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/common/TermsOfService"));
 const AboutUs = lazy(() => import("./pages/common/AboutUs"));
+const ProfilePage = lazy(() => import("./pages/common/ProfilePage"));
 
 // Lazy loading authentication & public pages
 const Home = lazy(() => import("./pages/public/Home"));
@@ -100,6 +101,7 @@ const App = () => {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/profile" element={<ProfilePage />} />
 
           {/* Organization Routes */}
           <Route element={<PrivateRoute allowedRoles={["organization"]} />}>
