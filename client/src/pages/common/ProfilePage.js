@@ -13,7 +13,16 @@ import {
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({});
   const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    navigate("/");
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -34,6 +43,7 @@ const ProfilePage = () => {
 
         if (response.data.success) {
           setUser(response.data.user);
+          setFormData(response.data.user);
         } else {
           throw new Error("Failed to retrieve user data.");
         }
@@ -44,7 +54,6 @@ const ProfilePage = () => {
         );
       }
     };
-
     fetchUserData();
   }, [navigate]);
 
@@ -54,77 +63,121 @@ const ProfilePage = () => {
     );
   }
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(
+        `http://localhost:8080/api/auth/users/update/${user._id}`,
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setUser(response.data.user);
+      setEditMode(false);
+      message.success("Profile updated successfully");
+    } catch (error) {
+      message.error(
+        error.response?.data?.message || "Failed to update profile"
+      );
+    }
+  };
+
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
-        {/* Profile Image */}
         <div className="flex justify-center">
-          <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-4xl font-bold">
+          <div className="w-24 h-24 rounded-full outline outline-blue-500 bg-gray-300 flex items-center justify-center text-gray-600 text-4xl font-bold">
             {user.name[0] || user.hospitalName[0] || user.organizationName[0]}
           </div>
         </div>
-
-        {/* User Info */}
         <h2 className="text-2xl font-bold text-center text-gray-800 mt-4">
-          {user.name}
+          {editMode ? (
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="border rounded p-1 w-full"
+            />
+          ) : (
+            user.name
+          )}
         </h2>
-        <p className="text-center text-gray-500">{user.role.toUpperCase()}</p>
+        <p className="text-center text-indigo-700">{user.role.toUpperCase()}</p>
 
-        {/* Details Section */}
-        <div className="mt-6">
-          <div className="space-y-4">
-            <p className="flex items-center gap-2 text-gray-600">
-              <FaEnvelope className="text-blue-500" />
-              <span className="font-semibold">Email:</span> {user.email}
-            </p>
-            {user.phone && (
-              <p className="flex items-center gap-2 text-gray-600">
-                <FaPhone className="text-green-500" />
-                <span className="font-semibold">Phone:</span> {user.phone}
-              </p>
-            )}
-            {user.address && (
-              <p className="flex items-center gap-2 text-gray-600">
-                <FaMapMarkerAlt className="text-red-500" />
-                <span className="font-semibold">Address:</span> {user.address}
-              </p>
-            )}
-            {user.organizationName && (
-              <p className="flex items-center gap-2 text-gray-600">
-                <FaBuilding className="text-yellow-500" />
-                <span className="font-semibold">Organization:</span>{" "}
-                {user.organizationName || "N/A"}
-              </p>
-            )}
-            {user.hospitalName && (
-              <p className="flex items-center gap-2 text-gray-600">
-                <FaHospital className="text-indigo-500" />
-                <span className="font-semibold">Hospital:</span>{" "}
-                {user.hospitalName || "N/A"}
-              </p>
-            )}
-            {user.website && (
-              <p className="flex items-center gap-2 text-gray-600">
-                <FaGlobe className="text-blue-500" />
-                <span className="font-semibold">Website:</span>
-                <a
-                  href={user.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline hover:text-blue-700"
-                >
-                  {user.website}
-                </a>
-              </p>
-            )}
+        <div className="mt-6 space-y-4">
+          <div className="flex items-center gap-2 text-gray-600">
+            <FaEnvelope className="text-blue-500" />
+            <span className="font-semibold">Email:</span> {user.email}
           </div>
+          {user.phone && (
+            <div className="flex items-center gap-2 text-gray-600">
+              <FaPhone className="text-green-500" />
+              <span className="font-semibold">Phone:</span>
+              {editMode ? (
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="border rounded p-1 w-full"
+                />
+              ) : (
+                user.phone
+              )}
+            </div>
+          )}
+          {user.address && (
+            <div className="flex items-center gap-2 text-gray-600">
+              <FaMapMarkerAlt className="text-red-500" />
+              <span className="font-semibold">Address:</span>
+              {editMode ? (
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  className="border rounded p-1 w-full"
+                />
+              ) : (
+                user.address
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Edit Profile Button */}
-        <div className="mt-6 flex justify-center">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-all">
-            Edit Profile
-          </button>
+        <div className="mt-6 flex justify-between">
+          {editMode ? (
+            <>
+              <button
+                onClick={handleUpdate}
+                className="bg-green-500 text-white px-4 py-2 rounded"
+              >
+                Save Changes
+              </button>
+              <button
+                onClick={() => setEditMode(false)}
+                className="bg-gray-500 text-white px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => setEditMode(true)}
+                className="text-blue-500 hover:underline"
+              >
+                Edit Profile
+              </button>
+              <button onClick={logout} className="text-red-500 hover:underline">
+                Logout
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

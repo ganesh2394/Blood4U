@@ -49,10 +49,7 @@ const SidebarCommon = () => {
           <FaFileContract className="mr-2" />
           <Link to="/terms-of-service">Terms of Service</Link>
         </li>
-        <li
-          className="flex items-center text-red-500 cursor-pointer"
-          onClick={handleLogout}
-        >
+        <li className="flex items-center cursor-pointer" onClick={handleLogout}>
           <FaSignOutAlt className="mr-2" />
           <span>Logout</span>
         </li>
