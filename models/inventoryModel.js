@@ -15,6 +15,7 @@ const inventorySchema = new mongoose.Schema(
     quantity: {
       type: Number,
       required: [true, "Blood quantity is required"],
+      min: [1, "Quantity must be a positive number"],
     },
     email: {
       type: String,
@@ -23,20 +24,20 @@ const inventorySchema = new mongoose.Schema(
     organization: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "organization is required"],
+      required: [true, "Organization is required"],
     },
     hospital: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: function () {
-        return this.inventoryType === "out" ? true : false;
+        return this.inventoryType === "out" ? true : false; // Only required for "out" inventory
       },
     },
     donor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: function () {
-        return this.inventoryType === "in" ? true : false;
+        return this.inventoryType === "in" ? true : false; // Only required for "in" inventory
       },
     },
   },
