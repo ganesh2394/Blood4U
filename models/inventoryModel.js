@@ -16,32 +16,58 @@ const inventorySchema = new mongoose.Schema(
       type: Number,
       required: [true, "Blood quantity is required"],
       min: [1, "Quantity must be a positive number"],
+      default: 1,
     },
-    email: {
-      type: String,
-      required: [true, "Donor email is required"],
-    },
+
+    // Org/Donor/Hospital are all Users with different roles
     organization: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User", // organization role
       required: [true, "Organization is required"],
     },
+
     hospital: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: function () {
-        return this.inventoryType === "out" ? true : false; // Only required for "out" inventory
+      ref: "User", // hospital role
+      default: null,
+      validate: {
+        validator: function (value) {
+          return this.inventoryType === "out" ? !!value : true;
+        },
+        message: "Hospital is required for 'out' inventory",
       },
     },
+
     donor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: function () {
-        return this.inventoryType === "in" ? true : false; // Only required for "in" inventory
+      ref: "User", // donor role
+      default: null,
+      validate: {
+        validator: function (value) {
+          return this.inventoryType === "in" ? !!value : true;
+        },
+        message: "Donor is required for 'in' inventory",
       },
+    },
+
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // whoever submitted the form
+      required: true,
     },
   },
   { timestamps: true }
 );
+
+// Middleware to ensure case consistency
+inventorySchema.pre("save", function (next) {
+  if (this.inventoryType) {
+    this.inventoryType = this.inventoryType.toLowerCase();
+  }
+  if (this.bloodGroup) {
+    this.bloodGroup = this.bloodGroup.toUpperCase();
+  }
+  next();
+});
 
 module.exports = mongoose.model("Inventory", inventorySchema);

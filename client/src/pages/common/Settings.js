@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Sun, Moon, Upload, RefreshCcw } from "lucide-react";
 
 const languages = ["English", "हिन्दी", "Español", "Français", "Deutsch"];
 const timezones = [
@@ -16,16 +17,70 @@ const Settings = () => {
   const [fontSize, setFontSize] = useState("normal");
   const [highContrast, setHighContrast] = useState(false);
   const [keyboardNav, setKeyboardNav] = useState(false);
+  const [notifications, setNotifications] = useState(true);
+  const [profileImage, setProfileImage] = useState(null);
 
   useEffect(() => {
     document.documentElement.className = theme;
   }, [theme]);
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImage(URL.createObjectURL(file));
+    }
+  };
+
+  const handleReset = () => {
+    setLanguage("English");
+    setTheme("light");
+    setTimezone("UTC+0 (GMT)");
+    setFontSize("normal");
+    setHighContrast(false);
+    setKeyboardNav(false);
+    setNotifications(true);
+    setProfileImage(null);
+  };
+
   return (
     <div
-      className={`max-w-3xl mx-auto p-6 ${highContrast ? "contrast-200" : ""}`}
+      className={`max-w-3xl mx-auto p-6 rounded-lg ${
+        highContrast ? "contrast-200" : ""
+      }`}
+      style={{
+        fontSize:
+          fontSize === "small"
+            ? "14px"
+            : fontSize === "large"
+            ? "18px"
+            : "16px",
+      }}
     >
-      <h1 className="text-3xl font-bold text-center mb-6">Settings</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">User Settings</h1>
+
+      {/* Profile Picture Upload */}
+      <div className="mb-6">
+        <label className="block font-medium mb-2">Profile Picture:</label>
+        <div className="flex items-center gap-4">
+          {profileImage && (
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="w-16 h-16 rounded-full object-cover border"
+            />
+          )}
+          <label className="cursor-pointer inline-flex items-center gap-2 text-blue-600 hover:underline">
+            <Upload size={18} />
+            Upload
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageUpload}
+            />
+          </label>
+        </div>
+      </div>
 
       {/* Language Selection */}
       <div className="mb-4">
@@ -48,20 +103,24 @@ const Settings = () => {
         <label className="block font-medium">Theme:</label>
         <div className="flex gap-4">
           <button
-            className={`p-2 rounded-lg ${
-              theme === "light" ? "bg-blue-500 text-white" : "bg-gray-200"
+            className={`p-2 flex items-center gap-2 rounded-lg ${
+              theme === "light"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 hover:bg-gray-200"
             }`}
             onClick={() => setTheme("light")}
           >
-            Light
+            <Sun size={16} /> Light
           </button>
           <button
-            className={`p-2 rounded-lg ${
-              theme === "dark" ? "bg-black text-white" : "bg-gray-200"
+            className={`p-2 flex items-center gap-2 rounded-lg ${
+              theme === "dark"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-100 hover:bg-gray-200"
             }`}
             onClick={() => setTheme("dark")}
           >
-            Dark
+            <Moon size={16} /> Dark
           </button>
         </div>
       </div>
@@ -82,9 +141,14 @@ const Settings = () => {
         </select>
       </div>
 
-      {/* Accessibility Options */}
+      {/* Font Size */}
       <div className="mb-4">
-        <label className="block font-medium">Font Size:</label>
+        <label className="block font-medium">
+          Font Size:
+          <span className="text-gray-500 text-sm ml-2">
+            (Affects entire page)
+          </span>
+        </label>
         <select
           className="w-full p-2 border rounded-lg"
           value={fontSize}
@@ -96,8 +160,14 @@ const Settings = () => {
         </select>
       </div>
 
+      {/* Accessibility Options */}
       <div className="mb-4 flex justify-between items-center">
-        <label className="font-medium">High Contrast Mode:</label>
+        <label className="font-medium">
+          High Contrast Mode
+          <span className="text-sm text-gray-500 block">
+            Improves visibility for low vision
+          </span>
+        </label>
         <input
           type="checkbox"
           className="w-5 h-5"
@@ -107,13 +177,44 @@ const Settings = () => {
       </div>
 
       <div className="mb-4 flex justify-between items-center">
-        <label className="font-medium">Keyboard Navigation:</label>
+        <label className="font-medium">
+          Keyboard Navigation
+          <span className="text-sm text-gray-500 block">
+            Use Tab / Arrow keys to move around
+          </span>
+        </label>
         <input
           type="checkbox"
           className="w-5 h-5"
           checked={keyboardNav}
           onChange={() => setKeyboardNav(!keyboardNav)}
         />
+      </div>
+
+      {/* Notifications */}
+      <div className="mb-6 flex justify-between items-center">
+        <label className="font-medium">
+          Notifications
+          <span className="text-sm text-gray-500 block">
+            Get email updates and alerts
+          </span>
+        </label>
+        <input
+          type="checkbox"
+          className="w-5 h-5"
+          checked={notifications}
+          onChange={() => setNotifications(!notifications)}
+        />
+      </div>
+
+      {/* Reset Button */}
+      <div className="flex justify-center">
+        <button
+          onClick={handleReset}
+          className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+        >
+          <RefreshCcw size={18} /> Reset to Defaults
+        </button>
       </div>
     </div>
   );

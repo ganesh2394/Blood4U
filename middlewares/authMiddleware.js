@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
 
       req.body.userId = decoded.userId; // Attach userId to request body
       req.body.role = decoded.role; // Attach user role
-
+      req.user = decoded;
       next(); // Proceed to the next middleware/controller
     });
   } catch (error) {

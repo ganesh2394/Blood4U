@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import {
+  FaHeartbeat,
+  FaSearchLocation,
+  FaFacebook,
+  FaTwitter,
+} from "react-icons/fa";
 
 const Donate = () => {
   const [eligibility, setEligibility] = useState(null);
@@ -10,69 +16,95 @@ const Donate = () => {
   });
 
   const handleEligibilityCheck = () => {
-    setEligibility("Eligible ✅ You can proceed with donation.");
+    setEligibility("✅ You are eligible to donate blood!");
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(
-      "Thank you for registering as a blood donor! We will contact you soon."
-    );
+    if (!form.name || !form.bloodGroup || !form.location || !form.contact) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    alert("🩸 Thank you for registering! We’ll contact you soon.");
+    setForm({ name: "", bloodGroup: "", location: "", contact: "" });
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 mt-14">
-      {/* Header Section */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-red-600">
-          Donate Blood, Save Lives ❤️
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-8 mt-14">
+      {/* Header */}
+      <div className="text-center mb-10">
+        <h1 className="text-4xl font-bold text-red-600 flex items-center justify-center gap-2">
+          <FaHeartbeat className="text-red-500" /> Donate Blood, Save Lives
         </h1>
         <p className="text-lg text-gray-700 mt-2">
-          Every donation can save up to three lives. Your contribution makes a
-          difference!
+          Every donation can save up to <strong>3 lives</strong>. Be a hero
+          today! 💪
         </p>
       </div>
 
       {/* Eligibility Check */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4">Quick Eligibility Check</h2>
-        <p>Are you above 18 and in good health?</p>
+      <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+        <h2 className="text-2xl font-semibold mb-3">
+          ✅ Quick Eligibility Check
+        </h2>
+        <p className="mb-2">Are you above 18 and in good health?</p>
         <button
           onClick={handleEligibilityCheck}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
         >
-          Check Eligibility
+          Check Now
         </button>
-        {eligibility && <p className="mt-2 text-green-600">{eligibility}</p>}
+        {eligibility && (
+          <p className="mt-3 text-green-600 font-medium">{eligibility}</p>
+        )}
       </div>
 
-      {/* Find a Center & Schedule */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4">Find a Donation Center</h2>
-        <p>Locate a blood donation center near you:</p>
-        <input
-          type="text"
-          placeholder="Enter city or zip code"
-          className="w-full border p-2 rounded mt-2"
-        />
-        <button className="bg-red-500 text-white px-4 py-2 rounded mt-2">
-          Search Centers
-        </button>
-      </div>
-
-      {/* Donation Registration Form */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4">
-          Register as a Blood Donor
+      {/* Search Center */}
+      <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+        <h2 className="text-2xl font-semibold mb-3">
+          📍 Find a Donation Center
         </h2>
-        <form onSubmit={handleSubmit}>
+        <p className="mb-2">
+          Enter your city or pincode to search nearby centers.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
+            placeholder="e.g. Delhi or 110001"
+            className="flex-1 border p-2 rounded"
+          />
+          <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded flex items-center gap-2">
+            <FaSearchLocation /> Search
+          </button>
+        </div>
+      </div>
+
+      {/* Donation Form */}
+      <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+        <h2 className="text-2xl font-semibold mb-3">
+          📝 Register as a Blood Donor
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
             placeholder="Full Name"
-            className="w-full border p-2 rounded mb-2"
+            className="w-full border p-2 rounded"
             required
           />
-          <select className="w-full border p-2 rounded mb-2" required>
+          <select
+            name="bloodGroup"
+            value={form.bloodGroup}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          >
             <option value="">Select Blood Group</option>
             <option>A+</option>
             <option>B+</option>
@@ -85,51 +117,59 @@ const Donate = () => {
           </select>
           <input
             type="text"
-            placeholder="Location (City, Hospital Name)"
-            className="w-full border p-2 rounded mb-2"
+            name="location"
+            value={form.location}
+            onChange={handleChange}
+            placeholder="Location (City, Hospital)"
+            className="w-full border p-2 rounded"
             required
           />
           <input
             type="tel"
+            name="contact"
+            value={form.contact}
+            onChange={handleChange}
             placeholder="Contact Number"
-            className="w-full border p-2 rounded mb-2"
+            className="w-full border p-2 rounded"
             required
           />
           <button
             type="submit"
-            className="bg-red-600 text-white px-4 py-2 rounded w-full"
+            className="bg-red-600 hover:bg-red-700 text-white w-full py-2 rounded font-medium"
           >
             Register Now
           </button>
         </form>
       </div>
 
-      {/* How It Works Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">
-          How the Donation Process Works
+      {/* Donation Process */}
+      <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
+        <h2 className="text-2xl font-semibold mb-3">
+          🩸 How Blood Donation Works
         </h2>
-        <ul className="list-disc pl-6 text-gray-700">
-          <li>📌 Register and confirm your eligibility.</li>
-          <li>🩸 Visit the nearest blood donation center.</li>
-          <li>🏥 Undergo a quick health screening.</li>
-          <li>🛌 Donate blood (takes about 10-15 minutes).</li>
-          <li>💧 Stay hydrated and rest after donation.</li>
+        <ul className="list-disc list-inside text-gray-700 space-y-1">
+          <li>✅ Confirm your eligibility and register online.</li>
+          <li>📍 Visit a nearby blood donation center.</li>
+          <li>🏥 Complete a quick health screening.</li>
+          <li>🛌 Donate blood (takes ~10-15 minutes).</li>
+          <li>💧 Rehydrate and relax post-donation.</li>
         </ul>
       </div>
 
       {/* Social Sharing */}
-      <div className="text-center mt-6">
-        <h2 className="text-lg font-semibold">Spread the Word! 📢</h2>
-        <p className="text-gray-600">
-          Encourage others to donate blood and save lives.
+      <div className="text-center mt-8">
+        <h2 className="text-xl font-semibold mb-2">📢 Spread the Word</h2>
+        <p className="text-gray-600 mb-4">
+          Inspire others to become blood donors too!
         </p>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded mt-2">
-          Share on Facebook
-        </button>
-        <button className="bg-blue-400 text-white px-4 py-2 rounded mt-2 ml-2">
-          Share on Twitter
-        </button>
+        <div className="flex justify-center gap-4">
+          <button className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2">
+            <FaFacebook /> Facebook
+          </button>
+          <button className="bg-blue-400 text-white px-4 py-2 rounded flex items-center gap-2">
+            <FaTwitter /> Twitter
+          </button>
+        </div>
       </div>
     </div>
   );

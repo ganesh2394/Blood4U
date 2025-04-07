@@ -1,106 +1,132 @@
-import React from "react";
-import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { Facebook, Twitter, Instagram, Mail, MapPin, Phone } from "lucide-react";
+
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-10">
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center md:text-left">
+    <footer className="bg-gray-900 text-white pt-12 pb-6 px-6">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+        {/* Logo + Mission */}
+        <div>
+          <div className="flex items-center mb-4">
+            <img
+              src="/logo192.png"
+              alt="Blood4U Logo"
+              className="h-10 w-10 rounded-full mr-2"
+              loading="lazy"
+            />
+            <h2 className="text-2xl font-bold text-red-500">Blood4U</h2>
+          </div>
+          <p className="text-sm text-gray-300">
+            Your donation can save lives. Join our mission to ensure safe and
+            accessible blood for everyone, everywhere.
+          </p>
+        </div>
+
         {/* Quick Links */}
         <div>
-          <h3 className="text-xl font-semibold mb-4 border-b-2 border-red-500 inline-block pb-1">
+          <h3 className="text-lg font-semibold mb-4 text-red-400">
             Quick Links
           </h3>
-          <ul className="space-y-3">
-            {[
-              { name: "Home", path: "/" },
-              { name: "Donate Blood", path: "/donations" },
-              { name: "Find a Center", path: "/centers" },
-              { name: "Eligibility", path: "/eligibility" },
-              { name: "Contact Us", path: "/contact" },
-            ].map((item, index) => (
-              <li key={index}>
-                <a
-                  href={item.path}
-                  className="hover:text-red-400 transition duration-300"
-                >
-                  {item.name}
-                </a>
-              </li>
-            ))}
+          <ul className="space-y-2 text-sm text-gray-300">
+            <li>
+              <Link to="/" className="hover:text-red-300">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/donate" className="hover:text-red-300">
+                Donate Blood
+              </Link>
+            </li>
+            <li>
+              <Link to="/centers" className="hover:text-red-300">
+                Find a Center
+              </Link>
+            </li>
+            <li>
+              <Link to="/eligibility" className="hover:text-red-300">
+                Check Eligibility
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="hover:text-red-300">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-red-300">
+                Contact
+              </Link>
+            </li>
           </ul>
         </div>
 
-        {/* Contact Information */}
+        {/* Contact Info */}
         <div>
-          <h3 className="text-xl font-semibold mb-4 border-b-2 border-red-500 inline-block pb-1">
+          <h3 className="text-lg font-semibold mb-4 text-red-400">
             Contact Us
           </h3>
-          <p className="text-gray-300">
-            📧{" "}
-            <a
-              href="mailto:support@blood4u.com"
-              className="hover:text-red-400 transition duration-300"
-            >
-              support@blood4u.com
-            </a>
-          </p>
-          <p className="text-gray-300">
-            📞{" "}
-            <a
-              href="tel:+1234567890"
-              className="hover:text-red-400 transition duration-300"
-            >
-              +1 234 567 890
-            </a>
-          </p>
-          <p className="text-gray-300">
-            📍 123 Blood Donation St, City, Country
-          </p>
+          <ul className="space-y-3 text-sm text-gray-300">
+            <li className="flex items-center">
+              <MapPin className="w-5 h-5 mr-2 text-red-300" />
+              123 Life Saver Street, Delhi, IN
+            </li>
+            <li className="flex items-center">
+              <Phone className="w-5 h-5 mr-2 text-red-300" />
+              +91 98765 43210
+            </li>
+            <li className="flex items-center">
+              <Mail className="w-5 h-5 mr-2 text-red-300" />
+              support@blood4u.org
+            </li>
+          </ul>
         </div>
 
-        {/* Social Media Links */}
-        <div className="flex flex-col items-center md:items-start">
-          <h3 className="text-xl font-semibold mb-4 border-b-2 border-red-500 inline-block pb-1">
-            Follow Us
+        {/* Stay Connected / Social */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4 text-red-400">
+            Stay Connected
           </h3>
-          <div className="flex space-x-6 mt-2">
-            {[
-              { icon: FaFacebook, link: "https://facebook.com" },
-              { icon: FaTwitter, link: "https://twitter.com" },
-              { icon: FaInstagram, link: "https://instagram.com" },
-            ].map((social, index) => (
-              <a
-                key={index}
-                href={social.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-2xl hover:text-red-400 transition duration-300"
-              >
-                <social.icon />
-              </a>
-            ))}
+          <p className="text-sm text-gray-300 mb-4">
+            Follow us on social media for blood drives, awareness, and updates.
+          </p>
+          <div className="flex space-x-4">
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="hover:text-red-400"
+            >
+              <Facebook />
+            </a>
+            <a
+              href="https://www.twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter"
+              className="hover:text-red-400"
+            >
+              <Twitter />
+            </a>
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="hover:text-red-400"
+            >
+              <Instagram />
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Footer Bottom */}
-      <div className="text-center mt-8 border-t border-gray-600 pt-6 text-gray-400 text-sm">
-        <p>© {new Date().getFullYear()} Blood4U. All rights reserved.</p>
-        <p className="mt-2">
-          <a
-            href="/privacy-policy"
-            className="hover:text-red-400 transition duration-300"
-          >
-            Privacy Policy
-          </a>{" "}
-          |{" "}
-          <a
-            href="/terms"
-            className="hover:text-red-400 transition duration-300"
-          >
-            Terms of Service
-          </a>
-        </p>
+      {/* Divider */}
+      <div className="border-t border-gray-700 mt-10 pt-4 text-center text-sm text-gray-400">
+        © {new Date().getFullYear()} Blood4U. All rights reserved. | Made with
+        ❤️
       </div>
     </footer>
   );

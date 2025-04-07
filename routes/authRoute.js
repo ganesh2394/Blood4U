@@ -28,7 +28,7 @@ router.post("/reset-password", ResetPassword);
 router.get("/current-user", authMiddleware, getCurrentUser);
 
 // Get All Users
-router.get("/users",getAllUsers )
+router.get("/users", getAllUsers);
 
 // Delete User
 router.delete("/users/delete/:id", deleteUser);

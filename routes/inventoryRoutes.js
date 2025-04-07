@@ -10,62 +10,130 @@ const {
   getOrganizationForHospitalController,
   getInventoryHospitalController,
   getRecentInventoryController,
+  deleteInventoryController,
+  updateInventoryController,
+  getHospitalRequestsController,
 } = require("../controllers/inventoryController");
 
 const router = express.Router();
 
-//Only Admin, Hospital, and Organization can create inventory
+// -----------------------------
+// Create Inventory Routes
+// -----------------------------
+
+// Donor creates IN inventory (blood donation)
 router.post(
-  "/create",
+  "/create-in",
   authMiddleware,
-  roleMiddleware(["admin", "hospital", "organization"]),
+  roleMiddleware(["donor"]),
   createInventoryController
 );
 
-//Any authenticated user can view inventory
-router.get("/all", authMiddleware, getInventoryController);
+// Hospital creates OUT inventory (blood request)
+router.post(
+  "/create-out",
+  authMiddleware,
+  roleMiddleware(["hospital"]),
+  createInventoryController
+);
 
-//Only Admin can view donors
+// Admin and organization can also create inventory (in or out)
+router.post(
+  "/create",
+  authMiddleware,
+  roleMiddleware(["admin", "organization"]),
+  createInventoryController
+);
+
+// -----------------------------
+// Get Inventory Records
+// -----------------------------
+
+// Get all inventory records (for all roles with respective filters)
+router.get(
+  "/all",
+  authMiddleware,
+  roleMiddleware(["admin", "hospital", "organization", "donor"]),
+  getInventoryController
+);
+
+// Get hospital-specific inventory
+router.post(
+  "/hospital-inventory",
+  authMiddleware,
+  roleMiddleware(["admin", "hospital"]),
+  getInventoryHospitalController
+);
+
+// Get recent inventory activity (admin, hospital, org)
+router.get(
+  "/recent",
+  authMiddleware,
+  roleMiddleware(["admin", "hospital", "organization"]),
+  getRecentInventoryController
+);
+
+// -----------------------------
+// Get User Roles Related
+// -----------------------------
+
+// Get donor list for admin/org
 router.get(
   "/donors",
   authMiddleware,
-  roleMiddleware(["admin"]),
+  roleMiddleware(["admin", "organization"]),
   getDonorsController
 );
 
-//Only Admin can view hospitals
+// Get hospital list for admin/org
 router.get(
   "/hospitals",
   authMiddleware,
-  roleMiddleware(["admin"]),
+  roleMiddleware(["admin", "organization"]),
   getHospitalController
 );
 
-//Only Admin can view organizations
+// Get organization list (for donor/admin)
 router.get(
   "/organizations",
   authMiddleware,
-  roleMiddleware(["admin"]),
+  roleMiddleware(["admin", "donor"]),
   getOrganizationController
 );
 
-//Organizations assigned to a hospital
+// Get organizations allowed for a hospital (hospital/admin)
 router.get(
-  "/organizations-for-hospital",
+  "/organizations/hospital",
   authMiddleware,
   roleMiddleware(["admin", "hospital"]),
   getOrganizationForHospitalController
 );
 
-//Only hospitals can view their inventory
-router.get(
-  "/hospital-inventory",
+// -----------------------------
+// Modify Inventory
+// -----------------------------
+
+// Update inventory (admin, hospital, organization)
+router.put(
+  "/update/:id",
   authMiddleware,
-  roleMiddleware(["hospital"]),
-  getInventoryHospitalController
+  roleMiddleware(["admin", "hospital", "organization"]),
+  updateInventoryController
 );
 
-// Any authenticated user can view recent inventory
-router.get("/recent", authMiddleware, getRecentInventoryController);
+// Delete inventory
+router.delete(
+  "/delete/:id",
+  authMiddleware,
+  roleMiddleware(["admin", "hospital", "organization"]),
+  deleteInventoryController
+);
+
+router.get(
+  "/hospital-requests",
+  authMiddleware,
+  roleMiddleware(["hospital"]),
+  getHospitalRequestsController
+);
 
 module.exports = router;

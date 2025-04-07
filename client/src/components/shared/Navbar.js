@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; // Importing icons
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,8 +9,8 @@ const Navbar = () => {
     <nav className="bg-white/90 backdrop-blur-lg fixed w-full top-0 z-50 shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <a
-          href="/"
+        <Link
+          to="/"
           className="text-2xl font-bold text-red-600 flex items-center"
         >
           <img
@@ -20,7 +21,7 @@ const Navbar = () => {
           <span className="hover:text-red-700 transition duration-300">
             Blood4U
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 text-lg font-medium text-gray-800">
@@ -34,24 +35,24 @@ const Navbar = () => {
             { name: "Contact", path: "/contact" },
           ].map((item, index) => (
             <li key={index}>
-              <a
-                href={item.path}
+              <Link
+                to={item.path}
                 className="hover:text-red-600 transition duration-300"
               >
                 {item.name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         {/* Donate Button (Desktop) */}
         <div className="hidden md:block">
-          <a
-            href="/donate"
-            className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg hover:bg-red-700 transition-all duration-300"
+          <Link
+            to="/donate"
+            className=" text-blue-600 px-6 py-2 rounded-lg font-bold border border-1 border-blue-600 transition-all duration-300"
           >
             Donate Now
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -102,23 +103,23 @@ const Navbar = () => {
             { name: "Contact", path: "/contact" },
           ].map((item, index) => (
             <li key={index}>
-              <a
-                href={item.path}
+              <Link
+                to={item.path}
                 className="block py-2 px-6 rounded-md hover:bg-red-100 hover:text-red-600 transition duration-300"
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
-              </a>
+              </Link>
             </li>
           ))}
           <li>
-            <a
-              href="/donate"
-              className="bg-red-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg hover:bg-red-700 block w-40 mx-auto transition-all duration-300"
+            <Link
+              to="/donate"
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg hover:bg-red-700 block w-40 mx-auto transition-all duration-300"
               onClick={() => setIsOpen(false)}
             >
               Donate Now
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

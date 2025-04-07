@@ -1,122 +1,162 @@
-import React from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { FaShieldAlt, FaChevronDown, FaChevronUp } from "react-icons/fa";
+
+const sectionsData = [
+  {
+    title: "Introduction",
+    content: (
+      <>
+        Welcome to <span className="font-semibold">Blood4U</span>. This Privacy
+        Policy explains how we collect, use, and protect your information. By
+        using our platform, you agree to the practices described below.
+      </>
+    ),
+  },
+  {
+    title: "Information We Collect",
+    content: (
+      <ul className="list-disc pl-5 space-y-1">
+        <li>
+          <strong>Personal:</strong> Name, email, phone, date of birth, blood
+          type.
+        </li>
+        <li>
+          <strong>Non-Personal:</strong> IP address, browser type, device
+          details.
+        </li>
+        <li>
+          <strong>Cookies:</strong> Used to improve user experience.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    title: "How We Use Your Data",
+    content: (
+      <ul className="list-disc pl-5 space-y-1">
+        <li>Facilitating blood donations and recipient matching.</li>
+        <li>Sending important notifications and reminders.</li>
+        <li>Enhancing platform functionality and security.</li>
+      </ul>
+    ),
+  },
+  {
+    title: "Data Security",
+    content: (
+      <>
+        We use encryption, secure authentication, and access control to
+        safeguard your data. We do not sell or share your personal information
+        without consent.
+      </>
+    ),
+  },
+  {
+    title: "Your Rights",
+    content: (
+      <ul className="list-disc pl-5 space-y-1">
+        <li>Access and update your personal data.</li>
+        <li>Request data deletion.</li>
+        <li>Opt out of marketing communications.</li>
+      </ul>
+    ),
+  },
+  {
+    title: "Cookies and Tracking",
+    content: (
+      <>
+        We use cookies for analytics and personalization. You can manage your
+        preferences in browser settings.
+      </>
+    ),
+  },
+  {
+    title: "Policy Updates",
+    content: (
+      <>
+        We may update this policy periodically. Changes will be posted with an
+        updated effective date.
+      </>
+    ),
+  },
+  {
+    title: "Contact Us",
+    content: (
+      <>
+        If you have any questions, email us at{" "}
+        <a
+          href="mailto:support@blood4u.com"
+          className="text-red-500 font-semibold hover:underline"
+        >
+          support@blood4u.com
+        </a>
+        .
+      </>
+    ),
+  },
+];
 
 const PrivacyPolicy = () => {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleSection = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
-      <div className=" mx-auto bg-white shadow-xl rounded-lg p-6">
-        {/* Title */}
-        <h1 className="text-4xl font-bold text-center text-red-600 mb-6">
-          Privacy Policy
-        </h1>
+    <div className="bg-gradient-to-br from-blue-50 to-white min-h-screen p-4 sm:p-6 flex items-center justify-center">
+      <div className="max-w-3xl w-full bg-white shadow-xl rounded-2xl p-6 sm:p-10 border border-gray-200">
+        <motion.h1
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl sm:text-5xl font-extrabold text-center text-indigo-600 flex items-center justify-center gap-3 mb-8"
+        >
+          <FaShieldAlt className="text-indigo-500" /> Privacy Policy
+        </motion.h1>
 
-        {/* Introduction and Scope */}
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Introduction</h2>
-          <p className="mt-2 text-lg text-gray-600">
-            Welcome to <span className="font-semibold">Blood4U</span>. This
-            Privacy Policy explains how we collect, use, and protect your
-            information. By using our platform, you agree to the practices
-            described below.
-          </p>
-        </section>
-
-        {/* Information Collection */}
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">
-            Information We Collect
-          </h2>
-          <ul className="mt-2 text-lg text-gray-600 list-disc pl-5">
-            <li>
-              <strong>Personal Information:</strong> Name, email, phone, date of
-              birth, blood type.
-            </li>
-            <li>
-              <strong>Non-Personal Information:</strong> IP address, browser
-              type, device details.
-            </li>
-            <li>
-              <strong>Cookies & Tracking:</strong> We use cookies to improve
-              user experience.
-            </li>
-          </ul>
-        </section>
-
-        {/* Use of Information */}
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">
-            How We Use Your Data
-          </h2>
-          <ul className="mt-2 text-lg text-gray-600 list-disc pl-5">
-            <li>Facilitating blood donations and recipient matching.</li>
-            <li>Sending important notifications and reminders.</li>
-            <li>Improving platform functionality and user experience.</li>
-          </ul>
-        </section>
-
-        {/* Data Security */}
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">
-            Data Security
-          </h2>
-          <p className="mt-2 text-lg text-gray-600">
-            We implement encryption, secure authentication, and access control
-            to protect your data. We do not sell or share your personal
-            information without consent.
-          </p>
-        </section>
-
-        {/* User Rights */}
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Your Rights</h2>
-          <ul className="mt-2 text-lg text-gray-600 list-disc pl-5">
-            <li>Access and update your personal data.</li>
-            <li>Request deletion of your data.</li>
-            <li>Opt out of marketing communications.</li>
-          </ul>
-        </section>
-
-        {/* Cookies and Tracking */}
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">
-            Cookies and Tracking
-          </h2>
-          <p className="mt-2 text-lg text-gray-600">
-            We use cookies for analytics and personalized experiences. You can
-            manage your cookie preferences in your browser settings.
-          </p>
-        </section>
-
-        {/* Changes to the Privacy Policy */}
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">
-            Policy Updates
-          </h2>
-          <p className="mt-2 text-lg text-gray-600">
-            We may update this policy periodically. Changes will be posted on
-            this page with an updated effective date.
-          </p>
-        </section>
-
-        {/* Contact Information */}
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Contact Us</h2>
-          <p className="mt-2 text-lg text-gray-600">
-            If you have any questions, email us at{" "}
-            <a
-              href="mailto:support@blood4u.com"
-              className="text-red-500 hover:underline"
+        <div className="space-y-4">
+          {sectionsData.map((section, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="border border-gray-300 rounded-lg bg-gray-50 shadow-sm"
             >
-              support@blood4u.com
-            </a>
-            .
-          </p>
-        </section>
+              <button
+                onClick={() => toggleSection(index)}
+                className="w-full flex justify-between items-center px-4 py-3 text-left text-lg font-medium text-gray-800 focus:outline-none"
+              >
+                {section.title}
+                {openIndex === index ? (
+                  <FaChevronUp className="text-gray-500" />
+                ) : (
+                  <FaChevronDown className="text-gray-500" />
+                )}
+              </button>
 
-        {/* Accept Button */}
-        <div className="text-center mt-6">
-          <button className="px-6 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition shadow-lg">
+              {openIndex === index && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="px-4 pb-4 text-gray-600 text-md"
+                >
+                  {section.content}
+                </motion.div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-red-600 text-white text-lg rounded-lg shadow-md hover:bg-red-700 transition-all"
+          >
             Accept & Continue
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>

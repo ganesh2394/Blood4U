@@ -1,107 +1,209 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import moment from "moment";
 
 const DonationHistory = () => {
-  // Dummy donation history data
-  const [donations, setDonations] = useState([
-    { id: 1, date: "2024-03-05", location: "Delhi", type: "Whole Blood" },
-    { id: 2, date: "2024-01-15", location: "Mumbai", type: "Platelets" },
-    { id: 3, date: "2023-11-10", location: "Bangalore", type: "Plasma" },
-    { id: 4, date: "2023-09-25", location: "Hyderabad", type: "Whole Blood" },
-    { id: 5, date: "2023-07-18", location: "Chennai", type: "Plasma" },
-    { id: 6, date: "2023-05-12", location: "Pune", type: "Platelets" },
-    { id: 7, date: "2023-03-07", location: "Kolkata", type: "Whole Blood" },
-    { id: 8, date: "2023-01-20", location: "Jaipur", type: "Whole Blood" },
-  ]);
+  const [donations, setDonations] = useState([]);
+  const [filteredDonations, setFilteredDonations] = useState([]);
+  const [userEmail, setUserEmail] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  // Search filters
-  const [searchDate, setSearchDate] = useState("");
-  const [searchLocation, setSearchLocation] = useState("");
+  // Filters
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [organizationSearch, setOrganizationSearch] = useState("");
 
-  // Calculate next eligible donation date (assuming 3-month gap required)
-  const lastDonationDate =
-    donations.length > 0 ? new Date(donations[0].date) : null;
-  const nextEligibleDate = lastDonationDate
-    ? new Date(lastDonationDate.setMonth(lastDonationDate.getMonth() + 3))
-        .toISOString()
-        .split("T")[0]
+  const getDonorHistory = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/inventory/all", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+
+      const currentUserRes = await axios.get(
+        "http://localhost:8080/api/auth/current-user",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      const currentUser = currentUserRes.data.user;
+      setUserEmail(currentUser.email);
+
+      const allInventory = res.data.inventory;
+
+      const donorInventory = allInventory.filter(
+        (item) =>
+          item.inventoryType === "in" && item.email === currentUser.email
+      );
+
+      setDonations(donorInventory);
+      setFilteredDonations(donorInventory);
+    } catch (error) {
+      console.error("Error fetching donation history", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDonorHistory();
+  }, []);
+
+  // Apply Filters
+  useEffect(() => {
+    let filtered = donations;
+
+    if (startDate && endDate) {
+      filtered = filtered.filter((d) =>
+        moment(d.createdAt).isBetween(startDate, endDate, null, "[]")
+      );
+    }
+
+    if (bloodGroup) {
+      filtered = filtered.filter((d) => d.bloodGroup === bloodGroup);
+    }
+
+    if (organizationSearch) {
+      filtered = filtered.filter((d) =>
+        d.organization?.organizationName
+          ?.toLowerCase()
+          .includes(organizationSearch.toLowerCase())
+      );
+    }
+
+    setFilteredDonations(filtered);
+  }, [startDate, endDate, bloodGroup, organizationSearch, donations]);
+
+  // Quick Stats
+  const totalDonations = filteredDonations.length;
+  const totalVolume = filteredDonations.reduce(
+    (acc, curr) => acc + curr.quantity * 100,
+    0
+  );
+  const lastDonationDate = filteredDonations[0]
+    ? moment(filteredDonations[0].createdAt).format("DD MMM YYYY")
     : "N/A";
 
-  // Filter donation history based on search inputs
-  const filteredDonations = donations.filter(
-    (donation) =>
-      (!searchDate || donation.date === searchDate) &&
-      (!searchLocation ||
-        donation.location.toLowerCase().includes(searchLocation.toLowerCase()))
-  );
-
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-bold text-red-600 mb-4">Donation History</h2>
+    <div className="p-4 max-w-7xl mx-auto">
+      <h2 className="text-3xl font-bold mb-6">My Donation History</h2>
 
-      {/* Summary Section */}
-      <div className="bg-gray-100 p-4 rounded-md mb-6">
-        <p className="text-lg font-semibold">
-          Total Donations:{" "}
-          <span className="text-red-500">{donations.length}</span>
-        </p>
-        <p className="text-lg">
-          Next Eligible Donation Date:{" "}
-          <span className="font-semibold">{nextEligibleDate}</span>
-        </p>
+      {/* Quick Info Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="bg-red-100 p-4 rounded-xl shadow text-center">
+          <h3 className="text-lg font-semibold">Total Donations</h3>
+          <p className="text-2xl font-bold">{totalDonations}</p>
+        </div>
+        <div className="bg-blue-100 p-4 rounded-xl shadow text-center">
+          <h3 className="text-lg font-semibold">Total Volume Donated</h3>
+          <p className="text-2xl font-bold">{totalVolume} ml</p>
+        </div>
+        <div className="bg-green-100 p-4 rounded-xl shadow text-center">
+          <h3 className="text-lg font-semibold">Last Donation Date</h3>
+          <p className="text-2xl font-bold">{lastDonationDate}</p>
+        </div>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-4">
-        <input
-          type="date"
-          value={searchDate}
-          onChange={(e) => setSearchDate(e.target.value)}
-          className="border p-2 rounded-md"
-        />
-        <input
-          type="text"
-          placeholder="Search by Location"
-          value={searchLocation}
-          onChange={(e) => setSearchLocation(e.target.value)}
-          className="border p-2 rounded-md"
-        />
+      <div className="bg-gray-50 p-4 rounded-xl shadow mb-6 flex flex-col md:flex-row gap-4 items-center">
+        <div>
+          <label className="block text-sm font-medium">Start Date</label>
+          <input
+            type="date"
+            className="border p-2 rounded"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium">End Date</label>
+          <input
+            type="date"
+            className="border p-2 rounded"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium">Blood Group</label>
+          <select
+            className="border p-2 rounded"
+            value={bloodGroup}
+            onChange={(e) => setBloodGroup(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+
+        <div className="flex-1">
+          <label className="block text-sm font-medium">
+            Search Organization
+          </label>
+          <input
+            type="text"
+            placeholder="e.g., Red Cross"
+            className="w-full border p-2 rounded"
+            value={organizationSearch}
+            onChange={(e) => setOrganizationSearch(e.target.value)}
+          />
+        </div>
       </div>
 
-      {/* Donation History Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-red-500 text-white">
-              <th className="border border-gray-300 p-2">Date</th>
-              <th className="border border-gray-300 p-2">Location</th>
-              <th className="border border-gray-300 p-2">Donation Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredDonations.length > 0 ? (
-              filteredDonations.map((donation) => (
-                <tr key={donation.id} className="hover:bg-gray-100">
-                  <td className="border border-gray-300 p-2">
-                    {donation.date}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {donation.location}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {donation.type}
-                  </td>
-                </tr>
-              ))
-            ) : (
+      {/* Donation Table */}
+      {loading ? (
+        <p>Loading...</p>
+      ) : filteredDonations.length === 0 ? (
+        <p className="text-gray-600">
+          No donations found for the selected filters.
+        </p>
+      ) : (
+        <div className="overflow-auto">
+          <table className="min-w-full table-auto border-collapse border shadow-md rounded-xl">
+            <thead className="bg-gray-100">
               <tr>
-                <td colSpan="3" className="text-center text-gray-500 p-4">
-                  No donation records found
-                </td>
+                <th className="p-2 border">Date</th>
+                <th className="p-2 border">Blood Group</th>
+                <th className="p-2 border">Quantity (ml)</th>
+                <th className="p-2 border">Organization</th>
+                <th className="p-2 border">Email</th>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {filteredDonations.map((donation) => (
+                <tr
+                  key={donation._id}
+                  className="text-center hover:bg-gray-50 transition"
+                >
+                  <td className="p-2 border">
+                    {moment(donation.createdAt).format("DD MMM YYYY")}
+                  </td>
+                  <td className="p-2 border">{donation.bloodGroup}</td>
+                  <td className="p-2 border">{donation.quantity * 100} ml</td>
+                  <td className="p-2 border">
+                    {donation.organization?.organizationName || "N/A"}
+                  </td>
+                  <td className="p-2 border">{donation.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

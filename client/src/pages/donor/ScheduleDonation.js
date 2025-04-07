@@ -1,126 +1,191 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import moment from "moment";
 
 const ScheduleDonation = () => {
-  // Dummy list of donation centers
-  const donationCenters = [
-    { id: 1, name: "Red Cross Center, Delhi" },
-    { id: 2, name: "Mumbai Blood Bank" },
-    { id: 3, name: "Bangalore Blood Donation Hub" },
-    { id: 4, name: "Chennai Medical Blood Center" },
-  ];
+  const [user, setUser] = useState({});
+  const [formData, setFormData] = useState({
+    bloodGroup: "",
+    quantity: "",
+    date: "",
+    organization: "",
+  });
+  const [organizations, setOrganizations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // State for scheduling donation
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [selectedCenter, setSelectedCenter] = useState("");
-  const [appointments, setAppointments] = useState([]);
+  useEffect(() => {
+    const fetchUserAndOrganizations = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
 
-  // Handle scheduling
-  const handleSchedule = () => {
-    if (!date || !time || !selectedCenter) {
-      alert("Please select date, time, and a donation center.");
+        const userRes = await axios.get(
+          "http://localhost:8080/api/auth/current-user",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(userRes.data.user);
+
+        const orgRes = await axios.get(
+          "http://localhost:8080/api/inventory/organizations",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setOrganizations(orgRes.data.organizations || []);
+      } catch (error) {
+        console.error("Error fetching user or organizations", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserAndOrganizations();
+  }, []);
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+      !formData.bloodGroup ||
+      !formData.quantity ||
+      !formData.date ||
+      !formData.organization
+    ) {
+      alert("Please fill all fields");
       return;
     }
 
-    const newAppointment = {
-      id: appointments.length + 1,
-      date,
-      time,
-      center: selectedCenter,
-    };
+    try {
+      const token = localStorage.getItem("authToken");
 
-    setAppointments([...appointments, newAppointment]);
-    setDate("");
-    setTime("");
-    setSelectedCenter("");
-    alert("Donation appointment scheduled successfully!");
+      const payload = {
+        inventoryType: "in",
+        bloodGroup: formData.bloodGroup,
+        quantity: parseFloat(formData.quantity) / 100, // assuming backend uses liters
+        organization: formData.organization,
+        email: user.email,
+        createdAt: formData.date,
+      };
+
+      await axios.post("http://localhost:8080/api/inventory/create", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setSuccessMessage("Donation scheduled successfully!");
+      setFormData({
+        bloodGroup: "",
+        quantity: "",
+        date: "",
+        organization: "",
+      });
+
+      setTimeout(() => setSuccessMessage(""), 3000);
+    } catch (err) {
+      console.error("Error scheduling donation", err);
+    }
   };
 
-  // Handle appointment cancellation
-  const handleCancel = (id) => {
-    setAppointments(
-      appointments.filter((appointment) => appointment.id !== id)
-    );
-    alert("Appointment canceled.");
-  };
+  if (loading) return <p className="p-4">Loading...</p>;
 
   return (
-    <div className="p-2 bg-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-bold text-red-600 mb-4">
-        Schedule Your Donation
+    <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-6">
+      <h2 className="text-2xl font-semibold mb-4 text-center">
+        Schedule Donation
       </h2>
 
-      {/* Form for Scheduling */}
-      <div className="bg-gray-100 p-4 rounded-md mb-6">
-        <label className="block text-lg font-semibold mb-2">Select Date:</label>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="w-full p-2 border rounded-md mb-4"
-        />
+      {successMessage && (
+        <div className="bg-green-100 text-green-800 px-4 py-2 rounded mb-4 text-center">
+          {successMessage}
+        </div>
+      )}
 
-        <label className="block text-lg font-semibold mb-2">Select Time:</label>
-        <input
-          type="time"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-          className="w-full p-2 border rounded-md mb-4"
-        />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block mb-1 font-medium">Blood Group</label>
+          <select
+            name="bloodGroup"
+            value={formData.bloodGroup}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          >
+            <option value="">Select</option>
+            {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((group) => (
+              <option key={group} value={group}>
+                {group}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <label className="block text-lg font-semibold mb-2">
-          Choose Donation Center:
-        </label>
-        <select
-          value={selectedCenter}
-          onChange={(e) => setSelectedCenter(e.target.value)}
-          className="w-full p-2 border rounded-md mb-4"
-        >
-          <option value="">Select a center</option>
-          {donationCenters.map((center) => (
-            <option key={center.id} value={center.name}>
-              {center.name}
-            </option>
-          ))}
-        </select>
+        <div>
+          <label className="block mb-1 font-medium">Quantity (in ml)</label>
+          <input
+            type="number"
+            name="quantity"
+            value={formData.quantity}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            min={100}
+            step={100}
+            placeholder="Enter quantity e.g. 500"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Date</label>
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            min={moment().format("YYYY-MM-DD")}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Organization</label>
+          <select
+            name="organization"
+            value={formData.organization}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            required
+          >
+            <option value="">Select</option>
+            {organizations.map((org) => (
+              <option key={org._id} value={org._id}>
+                {org.organizationName}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <button
-          onClick={handleSchedule}
-          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md w-full"
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
         >
-          Schedule Appointment
+          Schedule Donation
         </button>
-      </div>
-
-      {/* Upcoming Appointments */}
-      <h3 className="text-2xl font-bold text-gray-800 mb-4">
-        Upcoming Appointments
-      </h3>
-      {appointments.length > 0 ? (
-        <ul className="space-y-4">
-          {appointments.map((appointment) => (
-            <li
-              key={appointment.id}
-              className="bg-gray-200 p-3 rounded-md flex justify-between items-center"
-            >
-              <div>
-                <p className="text-lg font-semibold">
-                  {appointment.date} at {appointment.time}
-                </p>
-                <p className="text-sm text-gray-700">{appointment.center}</p>
-              </div>
-              <button
-                onClick={() => handleCancel(appointment.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
-              >
-                Cancel
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-gray-500">No upcoming appointments.</p>
-      )}
+      </form>
     </div>
   );
 };

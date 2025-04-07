@@ -43,48 +43,58 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        const userRole = data?.user?.role || "guest";
-        localStorage.setItem("authToken", data.token);
-        localStorage.setItem("role", userRole);
-
-        if (rememberMe) {
-          localStorage.setItem("rememberedEmail", formData.email);
-          localStorage.setItem("rememberedRole", formData.role);
-          localStorage.setItem("rememberMe", "true");
-        } else {
-          localStorage.removeItem("rememberedEmail");
-          localStorage.removeItem("rememberedRole");
-          localStorage.removeItem("rememberMe");
-        }
-
-        toast.success("Login Successfully");
-
-        setTimeout(() => {
-          switch (data.user.role) {
-            case "admin":
-              navigate("/admin-dashboard");
-              break;
-            case "organization":
-              navigate("/org-dashboard");
-              break;
-            case "donor":
-              navigate("/donor-dashboard");
-              break;
-            case "hospital":
-              navigate("/hospital-dashboard");
-              break;
-            default:
-              navigate("/");
-          }
-        }, 2000);
-      } else {
-        toast.error(data.message || "Login Failed");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Login Failed");
       }
+
+      const data = await response.json();
+      const userRole = data?.user?.role || "guest";
+      const userId = data?.user?._id || "";
+
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("role", userRole);
+      localStorage.setItem("userId", userId);
+
+      if (userRole === "organization") {
+        localStorage.setItem("organizationId", userId);
+      } else {
+        localStorage.removeItem("organizationId");
+      }
+
+      if (rememberMe) {
+        localStorage.setItem("rememberedEmail", formData.email);
+        localStorage.setItem("rememberedRole", userRole);
+        localStorage.setItem("rememberMe", "true");
+      } else {
+        localStorage.removeItem("rememberedEmail");
+        localStorage.removeItem("rememberedRole");
+        localStorage.removeItem("rememberMe");
+      }
+
+      toast.success("Login Successfully");
+
+      setTimeout(() => {
+        switch (userRole) {
+          case "admin":
+            navigate("/admin-dashboard");
+            break;
+          case "organization":
+            navigate("/org-dashboard");
+            break;
+          case "donor":
+            navigate("/donor-dashboard");
+            break;
+          case "hospital":
+            navigate("/hospital-dashboard");
+            break;
+          default:
+            navigate("/");
+        }
+      }, 2000);
     } catch (error) {
-      console.error("Error:", error);
-      toast.error("Something went wrong");
+      console.error("Error:", error.message);
+      toast.error(error.message || "Something went wrong");
     }
   };
 

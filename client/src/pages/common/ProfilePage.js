@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaSignOutAlt,
+  FaUserEdit,
+  FaTimes,
+  FaSave,
+} from "react-icons/fa";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -16,9 +23,7 @@ const ProfilePage = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("role");
     toast.success("You have been logged out successfully.");
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
+    setTimeout(() => navigate("/"), 1000);
   };
 
   useEffect(() => {
@@ -26,16 +31,14 @@ const ProfilePage = () => {
       try {
         const token = localStorage.getItem("authToken");
         if (!token) {
-          message.error("Unauthorized: No token provided");
+          toast.error("Unauthorized: No token found");
           navigate("/login");
           return;
         }
 
         const response = await axios.get(
           "http://localhost:8080/api/auth/current-user",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
 
         if (response.data.success) {
@@ -45,18 +48,11 @@ const ProfilePage = () => {
           throw new Error("Failed to retrieve user data.");
         }
       } catch (error) {
-        console.error("Error fetching user:", error);
-        toast.error("Failed to fetch user data.");
+        toast.error("Error fetching user data.");
       }
     };
     fetchUserData();
   }, [navigate]);
-
-  if (!user) {
-    return (
-      <p className="text-center text-lg font-semibold mt-10">Loading...</p>
-    );
-  }
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -72,19 +68,42 @@ const ProfilePage = () => {
       );
       setUser(response.data.user);
       setEditMode(false);
-      toast.success("Profile updated successfully! 🎉");
+      toast.success(" Profile updated successfully!");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to update profile");
+      toast.error("Failed to update profile.");
     }
   };
 
+  if (!user) {
+    return (
+      <div className="text-center text-lg font-semibold mt-20">
+        <p>Loading your profile... </p>
+      </div>
+    );
+  }
+
+  const getInitials = (name = "") => {
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
+  };
+
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
+    <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 p-6">
       <Toaster position="top-right" reverseOrder={false} />
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl border-t-4 border-blue-500">
         <div className="flex justify-center">
-          <div className="w-24 h-24 rounded-full outline outline-blue-500 bg-gray-300 flex items-center justify-center text-gray-600 text-4xl font-bold">
-            {user.name[0] || user.hospitalName[0] || user.organizationName[0]}
+          <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-blue-400 to-indigo-500 text-white flex items-center justify-center text-4xl font-bold shadow-md">
+            {getInitials(
+              editMode
+                ? formData.name ||
+                    formData.hospitalName ||
+                    formData.organizationName ||
+                    ""
+                : user.name || user.hospitalName || user.organizationName || ""
+            )}
           </div>
         </div>
         <h2 className="text-2xl font-bold text-center text-gray-800 mt-4">
@@ -99,21 +118,23 @@ const ProfilePage = () => {
                 ""
               }
               onChange={handleChange}
-              className="border rounded p-1 w-full"
+              className="border rounded px-3 py-1 w-full text-center"
             />
           ) : (
             user.name || user.hospitalName || user.organizationName
           )}
         </h2>
-        <p className="text-center text-indigo-700">{user.role.toUpperCase()}</p>
+        <p className="text-center text-indigo-600 font-medium mt-1">
+          {user.role.toUpperCase()}
+        </p>
 
-        <div className="mt-6 space-y-4">
-          <div className="flex items-center gap-2 text-gray-600">
+        <div className="mt-6 space-y-4 text-gray-700">
+          <div className="flex items-center gap-2">
             <FaEnvelope className="text-blue-500" />
             <span className="font-semibold">Email:</span> {user.email}
           </div>
           {user.phone && (
-            <div className="flex items-center gap-2 text-gray-600">
+            <div className="flex items-center gap-2">
               <FaPhone className="text-green-500" />
               <span className="font-semibold">Phone:</span>
               {editMode ? (
@@ -122,7 +143,7 @@ const ProfilePage = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="border rounded p-1 w-full"
+                  className="border rounded px-2 py-1 w-full"
                 />
               ) : (
                 user.phone
@@ -130,7 +151,7 @@ const ProfilePage = () => {
             </div>
           )}
           {user.address && (
-            <div className="flex items-center gap-2 text-gray-600">
+            <div className="flex items-center gap-2">
               <FaMapMarkerAlt className="text-red-500" />
               <span className="font-semibold">Address:</span>
               {editMode ? (
@@ -139,7 +160,7 @@ const ProfilePage = () => {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  className="border rounded p-1 w-full"
+                  className="border rounded px-2 py-1 w-full"
                 />
               ) : (
                 user.address
@@ -148,32 +169,35 @@ const ProfilePage = () => {
           )}
         </div>
 
-        <div className="mt-6 flex justify-between">
+        <div className="mt-8 flex justify-between items-center">
           {editMode ? (
             <>
               <button
                 onClick={handleUpdate}
-                className="bg-green-500 text-white px-4 py-2 rounded"
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow flex items-center gap-2 transition duration-200"
               >
-                Save Changes
+                <FaSave /> Save
               </button>
               <button
                 onClick={() => setEditMode(false)}
-                className="bg-gray-500 text-white px-4 py-2 rounded"
+                className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg shadow flex items-center gap-2 transition duration-200"
               >
-                Cancel
+                <FaTimes /> Cancel
               </button>
             </>
           ) : (
             <>
               <button
                 onClick={() => setEditMode(true)}
-                className="text-blue-500 hover:underline"
+                className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-2"
               >
-                Edit Profile
+                <FaUserEdit /> Edit Profile
               </button>
-              <button onClick={logout} className="text-red-500 hover:underline">
-                Logout
+              <button
+                onClick={logout}
+                className="text-red-600 hover:text-red-800 hover:underline flex items-center gap-2"
+              >
+                <FaSignOutAlt /> Logout
               </button>
             </>
           )}

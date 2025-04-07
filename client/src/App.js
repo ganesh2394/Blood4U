@@ -7,6 +7,7 @@ import DashboardLayout from "./components/layout/DashboardLayout";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import LoadingScreen from "./components/LoadingScreen"; // Direct import for faster loading
 import InventoryForm from "./components/form/InventoryForm";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy loading dashboards
 const AdminDashboard = lazy(() => import("./pages/dashboard/AdminDashboard"));
@@ -70,6 +71,7 @@ const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
 const App = () => {
   return (
     <Suspense fallback={<LoadingScreen />}>
+      <ScrollToTop/>
       <Routes>
         {/* Public Routes */}
         <Route element={<PublicRoutes />}>
