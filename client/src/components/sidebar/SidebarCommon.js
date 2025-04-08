@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import {
   FaQuestionCircle,
   FaEnvelope,
@@ -34,7 +34,6 @@ const SidebarCommon = () => {
 
   return (
     <div className="mt-auto">
-      <Toaster position="top-right" reverseOrder={false} />
       <ul className="space-y-3">
         <li className="flex items-center">
           <FaUser className="mr-2" />

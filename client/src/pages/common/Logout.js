@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 const Logout = () => {
   const navigate = useNavigate();
@@ -21,7 +21,6 @@ const Logout = () => {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen text-center">
-      <Toaster />
       <div className="text-xl font-bold mb-4">Logging out...</div>
       <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500"></div>
     </div>

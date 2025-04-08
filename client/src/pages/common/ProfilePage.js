@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import {
   FaEnvelope,
   FaPhone,
@@ -93,7 +93,6 @@ const ProfilePage = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-gray-100 to-blue-100 p-6">
-      <Toaster position="top-right" reverseOrder={false} />
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl border-t-4 border-blue-500">
         <div className="flex justify-center">
           <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-blue-400 to-indigo-500 text-white flex items-center justify-center text-4xl font-bold shadow-md">

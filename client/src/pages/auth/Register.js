@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -56,7 +56,6 @@ const Register = () => {
         backgroundImage: "url('/assets/images/background1.png')",
       }}
     >
-      <Toaster position="top-right" reverseOrder={false} />
       {/* Overlay for Blur Effect */}
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-lg"></div>
 
