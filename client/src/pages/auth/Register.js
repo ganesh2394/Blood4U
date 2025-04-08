@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { Eye, EyeOff } from "lucide-react";
+
 const Register = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     role: "",
     name: "",
@@ -15,71 +19,90 @@ const Register = () => {
     phone: "",
   });
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
 
+  const validateForm = () => {
+    const { email, phone, password } = formData;
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      toast.error("Please enter a valid email address");
+      return false;
+    }
+
+    if (!/^\d{10}$/.test(phone)) {
+      toast.error("Phone number must be 10 digits");
+      return false;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      console.log(response);
+
       const data = await response.json();
+
       if (response.ok) {
-        toast.success("Registration Successful");
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+        toast.success("Registration successful!");
+        setTimeout(() => navigate("/login"), 2000);
       } else {
-        toast.error(data.message || "Registration Failed");
+        toast.error(data.message || "Registration failed.");
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong!");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div
-      className=" fixed top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat flex justify-center items-center"
-      style={{
-        backgroundImage: "url('/assets/images/background1.png')",
-      }}
+      className="fixed top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat flex justify-center items-center"
+      style={{ backgroundImage: "url('/assets/images/background1.png')" }}
     >
-      {/* Overlay for Blur Effect */}
-      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-lg"></div>
+      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
 
-      {/* Container for Image & Form */}
-      <div className="relative bg-white bg-opacity-90 p-6 rounded-lg shadow-md max-w-4xl w-full flex z-10 min-h-[500px] h-full">
-        {/* Left Side - Image */}
+      <div className="relative bg-white bg-opacity-90 p-6 rounded-2xl shadow-lg max-w-4xl w-full flex z-10 min-h-[550px] h-fit">
         <div className="hidden md:flex w-1/2 h-full">
           <img
             src="/assets/images/register-illustration.png"
             alt="Register"
-            className="w-full h-full object-cover rounded-l-lg"
+            className="w-full h-full object-cover rounded-l-2xl"
           />
         </div>
 
-        {/* Right Side - Registration Form */}
-        <div className="w-full md:w-1/2 p-6 flex flex-col justify-between h-full">
-          <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">
-            Register
+        <div className="w-full md:w-1/2 p-6 flex flex-col justify-between">
+          <h2 className="text-3xl font-semibold text-center mb-6 text-gray-800">
+            Create an Account
           </h2>
-          <form onSubmit={handleSubmit} className="flex flex-col h-full">
-            {/* Role Selection */}
-            <div className="mb-3">
-              <label className="block text-xm font-medium text-gray-700">
-                Role
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <div>
+              <label className="block font-medium text-gray-700 mb-1">
+                Role <span className="text-red-500">*</span>
               </label>
               <select
                 name="role"
@@ -96,16 +119,16 @@ const Register = () => {
               </select>
             </div>
 
-            {/* Name */}
             {(formData.role === "admin" || formData.role === "donor") && (
-              <div className="mb-3">
-                <label className="block text-xm font-medium text-gray-700">
-                  Name
+              <div>
+                <label className="block font-medium text-gray-700 mb-1">
+                  Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   name="name"
                   required
+                  placeholder="Enter your full name"
                   className="w-full border p-2 rounded"
                   value={formData.name}
                   onChange={handleChange}
@@ -113,125 +136,130 @@ const Register = () => {
               </div>
             )}
 
-            {/* Organisation Name (Only for Organisations) */}
             {formData.role === "organization" && (
-              <div className="mb-3">
-                <label className="block text-xm font-medium text-gray-700">
-                  Organization Name
+              <div>
+                <label className="block font-medium text-gray-700 mb-1">
+                  Organization Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   name="organizationName"
                   required
+                  placeholder="Enter your organization"
                   className="w-full border p-2 rounded"
-                  value={formData.organizationName || ""}
+                  value={formData.organizationName}
                   onChange={handleChange}
                 />
               </div>
             )}
 
-            {/* Hospital Name (Only for Hospitals) */}
             {formData.role === "hospital" && (
-              <div className="mb-3">
-                <label className="block text-xm font-medium text-gray-700">
-                  Hospital Name
+              <div>
+                <label className="block font-medium text-gray-700 mb-1">
+                  Hospital Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   name="hospitalName"
                   required
+                  placeholder="Enter your hospital name"
                   className="w-full border p-2 rounded"
-                  value={formData.hospitalName || ""}
+                  value={formData.hospitalName}
                   onChange={handleChange}
                 />
               </div>
             )}
 
-            {/* Email */}
-            <div className="mb-3">
-              <label className="block text-xm font-medium text-gray-700">
-                Email
+            <div>
+              <label className="block font-medium text-gray-700 mb-1">
+                Email <span className="text-red-500">*</span>
               </label>
               <input
                 type="email"
                 name="email"
                 required
+                placeholder="example@mail.com"
                 className="w-full border p-2 rounded"
                 value={formData.email}
                 onChange={handleChange}
               />
             </div>
 
-            {/* Password */}
-            <div className="mb-3">
-              <label className="block text-xm font-medium text-gray-700">
-                Password
+            <div className="relative">
+              <label className="block font-medium text-gray-700 mb-1">
+                Password <span className="text-red-500">*</span>
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 required
-                className="w-full border p-2 rounded"
+                placeholder="Minimum 6 characters"
+                className="w-full border p-2 rounded pr-10"
                 value={formData.password}
                 onChange={handleChange}
               />
+              <div
+                className="absolute right-3 top-9 cursor-pointer text-gray-600"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </div>
             </div>
 
-            {/* Website (Optional) */}
-            <div className="mb-3">
-              <label className="block text-xm font-medium">
-                Website (Optional)
-              </label>
+            <div>
+              <label className="block font-medium">Website (Optional)</label>
               <input
                 type="text"
                 name="website"
                 className="w-full border p-2 rounded"
+                placeholder="https://your-site.com"
                 value={formData.website}
                 onChange={handleChange}
               />
             </div>
 
-            {/* Address */}
-            <div className="mb-3">
-              <label className="block text-xm font-medium text-gray-700">
-                Address
+            <div>
+              <label className="block font-medium text-gray-700 mb-1">
+                Address <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 name="address"
                 required
+                placeholder="Enter your address"
                 className="w-full border p-2 rounded"
                 value={formData.address}
                 onChange={handleChange}
               />
             </div>
 
-            {/* Phone */}
-            <div className="mb-3">
-              <label className="block text-xm font-medium text-gray-700">
-                Phone
+            <div>
+              <label className="block font-medium text-gray-700 mb-1">
+                Phone <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 name="phone"
                 required
+                placeholder="10-digit mobile number"
                 className="w-full border p-2 rounded"
                 value={formData.phone}
                 onChange={handleChange}
               />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
+              className={`w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300 ${
+                loading ? "opacity-60 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
             >
-              Register
+              {loading ? "Registering..." : "Register"}
             </button>
           </form>
 
-          {/* Login Link */}
-          <p className="text-center mt-3 text-sm text-gray-700">
+          <p className="text-center mt-4 text-sm text-gray-700">
             Already have an account?{" "}
             <Link to="/login" className="text-blue-600 hover:underline">
               Login
