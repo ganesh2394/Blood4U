@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Menu,
   X,
-  User,
   Heart,
   Home,
   Info,

@@ -18,7 +18,7 @@ const About = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 4000,
     arrows: false,
   };
 
@@ -43,18 +43,25 @@ const About = () => {
   return (
     <div className="min-h-screen w-full bg-gray-50 p-6 pt-20">
       {/* Hero Section */}
-      <section className="bg-red-600 text-white text-center py-20 rounded-xl shadow-md">
-        <motion.h1
-          className="text-5xl font-extrabold mb-4"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          About Blood4U
-        </motion.h1>
-        <p className="text-lg md:text-xl max-w-screen-md mx-auto">
-          Connecting donors to those in need — one drop at a time.
-        </p>
+      <section className="relative h-[80vh] rounded-xl overflow-hidden shadow-md">
+        <img
+          src="/assets/images/donation_home.jpg"
+          alt="Blood Donation"
+          className="w-full h-full object-cover object-center absolute inset-0 z-0"
+        />
+        <div className="absolute inset-0 bg-blue-900 bg-opacity-60 z-10 flex flex-col justify-center items-center text-white px-4 text-center">
+          <motion.h1
+            className="text-5xl font-extrabold mb-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+            About Blood4U
+          </motion.h1>
+          <p className="text-xl md:text-2xl max-w-screen-md">
+            Connecting donors to those in need — one drop at a time.
+          </p>
+        </div>
       </section>
 
       {/* Mission & Vision */}
@@ -91,7 +98,7 @@ const About = () => {
         <h2 className="text-4xl font-bold text-red-500 text-center">
           Our Core Values
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 px-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-10 px-4">
           {[
             { icon: FaHeartbeat, title: "Compassion" },
             { icon: FaHandHoldingHeart, title: "Integrity" },
@@ -104,7 +111,7 @@ const About = () => {
               aria-label={value.title}
             >
               <value.icon className="text-5xl text-red-500 mx-auto mb-3" />
-              <p className="text-lg font-semibold">{value.title}</p>
+              <p className="text-lg font-semibold text-center">{value.title}</p>
             </div>
           ))}
         </div>
