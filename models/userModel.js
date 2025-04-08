@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: [true, "Role is required"],
+      default: "donor",
       enum: ["admin", "organization", "donor", "hospital"],
     },
     name: {
@@ -53,6 +54,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Phone number is required"],
       match: [/^[0-9]{10}$/, "Phone number must be 10 digits"],
+    },
+    // Blood Type Field for Donors
+    bloodType: {
+      type: String,
+      enum: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
+      required: false, 
     },
   },
   { timestamps: true }

@@ -40,11 +40,11 @@ const AdminDashboard = () => {
           axios.get("http://localhost:8080/api/inventory/recent", { headers }),
         ]);
 
-      console.log("Donor Res : ", donorsRes);
-      console.log("Hos Res : ", hospitalsRes);
-      console.log("Org Res : ", orgsRes);
-      console.log("Inventory Res : ", inventoryRes);
-      console.log("Recent Res : ", recentRes);
+      // console.log("Donor Res : ", donorsRes);
+      // console.log("Hos Res : ", hospitalsRes);
+      // console.log("Org Res : ", orgsRes);
+      // console.log("Inventory Res : ", inventoryRes);
+      // console.log("Recent Res : ", recentRes);
       // Set statistics
       setStats({
         donors: donorsRes?.data?.donors?.length || 0,
@@ -53,7 +53,7 @@ const AdminDashboard = () => {
         inventoryCount: inventoryRes?.data?.inventory?.length || 0,
       });
 
-      console.log("Recent Act : ", recentRes);
+      // console.log("Recent Act : ", recentRes);
       // Set recent inventory data
       setRecentInventories(recentRes?.data?.inventory?.slice(0, 5) || []);
 
@@ -138,7 +138,8 @@ const AdminDashboard = () => {
               <div className="flex justify-between">
                 <span>
                   <strong>{item.inventoryType.toUpperCase()}</strong> from{" "}
-                  {item?.email || "N/A"} ({item.bloodGroup})
+                  {item?.donor?.email || item?.hospital?.email || "N/A"} (
+                  <strong className="text-red-700">{item.bloodGroup}</strong>)
                 </span>
                 <span className="text-sm text-gray-500">
                   {new Date(item.createdAt).toLocaleString()}

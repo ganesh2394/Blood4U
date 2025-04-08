@@ -120,7 +120,7 @@ const ManageUsers = () => {
         <Table
           dataSource={filteredUsers}
           rowKey="_id"
-          pagination={{ pageSize: 5 }}
+          pagination={{ pageSize: 7 }}
           columns={[
             {
               title: "Name",

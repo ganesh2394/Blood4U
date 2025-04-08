@@ -8,6 +8,8 @@ import PrivateRoute from "./components/routes/PrivateRoute";
 import LoadingScreen from "./components/LoadingScreen"; // Direct import for faster loading
 import InventoryForm from "./components/form/InventoryForm";
 import ScrollToTop from "./components/ScrollToTop";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Lazy loading dashboards
 const AdminDashboard = lazy(() => import("./pages/dashboard/AdminDashboard"));
@@ -71,7 +73,8 @@ const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
 const App = () => {
   return (
     <Suspense fallback={<LoadingScreen />}>
-      <ScrollToTop/>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <ScrollToTop />
       <Routes>
         {/* Public Routes */}
         <Route element={<PublicRoutes />}>

@@ -1,6 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaUsers, FaTachometerAlt, FaClipboardList, FaHandHoldingHeart, FaBox } from "react-icons/fa";
+import {
+  FaUsers,
+  FaTachometerAlt,
+  FaClipboardList,
+  FaHandHoldingHeart,
+  FaBox,
+} from "react-icons/fa";
 import SidebarCommon from "../SidebarCommon";
 
 const AdminSidebar = () => {

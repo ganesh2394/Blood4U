@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import {
   FaHeartbeat,
   FaSearchLocation,
@@ -9,28 +10,56 @@ import {
 const Donate = () => {
   const [eligibility, setEligibility] = useState(null);
   const [form, setForm] = useState({
+    role: "donor",
     name: "",
-    bloodGroup: "",
-    location: "",
-    contact: "",
+    email: "",
+    password: "",
+    address: "",
+    phone: "",
+    bloodType: "",
   });
-
   const handleEligibilityCheck = () => {
-    setEligibility("✅ You are eligible to donate blood!");
+    setEligibility("You are eligible to donate blood!");
   };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.bloodGroup || !form.location || !form.contact) {
-      alert("Please fill in all fields.");
-      return;
+
+    const payload = { ...form };
+    if (!payload.bloodType) delete payload.bloodType;
+
+    try {
+      const res = await fetch("http://localhost:8080/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success(data.message || "Registered successfully!");
+        setForm({
+          role: "donor",
+          name: "",
+          email: "",
+          password: "",
+          address: "",
+          phone: "",
+          bloodType: "",
+        });
+      } else {
+        toast.error(data.message || "Something went wrong!");
+      }
+    } catch (error) {
+      toast.error("Registration failed. Please try again later.");
     }
-    alert("🩸 Thank you for registering! We’ll contact you soon.");
-    setForm({ name: "", bloodGroup: "", location: "", contact: "" });
   };
 
   return (
@@ -98,14 +127,31 @@ const Donate = () => {
             className="w-full border p-2 rounded"
             required
           />
-          <select
-            name="bloodGroup"
-            value={form.bloodGroup}
+          <input
+            type="email"
+            name="email"
+            value={form.email}
             onChange={handleChange}
+            placeholder="Email"
             className="w-full border p-2 rounded"
             required
+          />
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full border p-2 rounded"
+            required
+          />
+          <select
+            name="bloodType"
+            value={form.bloodType}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
           >
-            <option value="">Select Blood Group</option>
+            <option value="">Select Blood Group (Optional)</option>
             <option>A+</option>
             <option>B+</option>
             <option>O+</option>
@@ -117,17 +163,17 @@ const Donate = () => {
           </select>
           <input
             type="text"
-            name="location"
-            value={form.location}
+            name="address"
+            value={form.address}
             onChange={handleChange}
-            placeholder="Location (City, Hospital)"
+            placeholder="Address"
             className="w-full border p-2 rounded"
             required
           />
           <input
-            type="tel"
-            name="contact"
-            value={form.contact}
+            type="text"
+            name="phone"
+            value={form.phone}
             onChange={handleChange}
             placeholder="Contact Number"
             className="w-full border p-2 rounded"

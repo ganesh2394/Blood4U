@@ -170,7 +170,7 @@ exports.getRecentInventoryController = async (req, res) => {
 exports.getDonorsController = async (req, res) => {
   try {
     const donors = await User.find({ role: "donor" }).select("-password");
-    console.log("List of Donors : ", donors);
+
     res.status(200).json({
       success: true,
       message: "Donor list fetched",
@@ -191,7 +191,6 @@ exports.getDonorsController = async (req, res) => {
 exports.getHospitalController = async (req, res) => {
   try {
     const hospitals = await User.find({ role: "hospital" }).select("-password");
-    console.log("List of Hos : ", hospitals);
     res.status(200).json({
       success: true,
       message: "Hospital list fetched",
@@ -212,7 +211,6 @@ exports.getHospitalController = async (req, res) => {
 exports.getOrganizationController = async (req, res) => {
   try {
     const orgs = await User.find({ role: "organization" }).select("-password");
-    console.log("List of Orgs : ", orgs);
     res.status(200).json({
       success: true,
       message: "Organizations fetched",
@@ -331,13 +329,11 @@ exports.deleteInventoryController = async (req, res) => {
 exports.getHospitalRequestsController = async (req, res) => {
   try {
     const hospitalEmail = req.body.email || req.user.email;
-    console.log("Hos email : ", hospitalEmail);
 
     const requests = await Inventory.find({
       inventoryType: "out",
       email: hospitalEmail,
     }).populate("organization"); // if you're storing org ID
-    console.log("User Req : ", requests);
 
     res.status(200).json({ success: true, requests });
   } catch (error) {

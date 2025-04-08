@@ -10,6 +10,7 @@ import {
   FaUserEdit,
   FaTimes,
   FaSave,
+  FaTint,
 } from "react-icons/fa";
 
 const ProfilePage = () => {
@@ -129,6 +130,24 @@ const ProfilePage = () => {
         </p>
 
         <div className="mt-6 space-y-4 text-gray-700">
+          {user.role === "donor" && (
+            <div className="flex items-center gap-2">
+              <FaTint className="text-red-400" />
+              <span className="font-semibold">Blood Type:</span>
+              {editMode ? (
+                <input
+                  type="text"
+                  name="bloodType"
+                  value={formData.bloodType || ""}
+                  onChange={handleChange}
+                  className="border rounded px-2 py-1 w-full"
+                />
+              ) : (
+                user.bloodType || "N/A"
+              )}
+            </div>
+          )}
+
           <div className="flex items-center gap-2">
             <FaEnvelope className="text-blue-500" />
             <span className="font-semibold">Email:</span> {user.email}

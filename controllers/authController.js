@@ -17,6 +17,7 @@ const registerUser = async (req, res) => {
       address,
       phone,
       website,
+      bloodType,
     } = req.body;
 
     // Check if user exists
@@ -29,8 +30,8 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user object
-    const user = new User({
+    // Build user object
+    const userData = {
       role,
       name,
       organizationName,
@@ -40,7 +41,15 @@ const registerUser = async (req, res) => {
       address,
       phone,
       website,
-    });
+    };
+
+    // Only add bloodType if role is donor and it's not an empty string
+    if (role === "donor" && bloodType && bloodType.trim() !== "") {
+      userData.bloodType = bloodType;
+    }
+
+    // Create user instance
+    const user = new User(userData);
 
     // Save user
     await user.save();
@@ -228,6 +237,20 @@ const updateUser = async (req, res) => {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
+    }
+
+    // If user is not a donor, prevent bloodType update
+    if (user.role !== "donor" && "bloodType" in updatedData) {
+      delete updatedData.bloodType;
+    }
+
+    // If bloodType is empty string, remove it
+    if (
+      user.role === "donor" &&
+      "bloodType" in updatedData &&
+      updatedData.bloodType.trim() === ""
+    ) {
+      delete updatedData.bloodType;
     }
 
     // Update user data
