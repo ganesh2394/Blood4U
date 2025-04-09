@@ -639,6 +639,153 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Upcoming Blood Donation Camps */}
+      <section className="py-24 px-6 bg-gradient-to-br from-white via-red-50 to-white text-center">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-700 mb-6">
+          🩸 Upcoming Blood Donation Camps
+        </h2>
+        <p className="text-gray-600 max-w-2xl mx-auto mb-16 text-lg md:text-xl">
+          Be the reason someone lives. Explore nearby camps and donate with
+          compassion.
+        </p>
+
+        <div className="relative max-w-4xl mx-auto">
+          <div className="border-l-4 border-red-500 pl-8 space-y-12">
+            {[
+              {
+                city: "Mumbai",
+                venue: "City Hospital",
+                date: "15th April 2025",
+                time: "10:00 AM - 4:00 PM",
+                link: "#",
+              },
+              {
+                city: "Delhi",
+                venue: "Red Cross Center",
+                date: "20th April 2025",
+                time: "9:00 AM - 3:00 PM",
+                link: "#",
+              },
+              {
+                city: "Bengaluru",
+                venue: "Govt. General Hospital",
+                date: "25th April 2025",
+                time: "11:00 AM - 5:00 PM",
+                link: "#",
+              },
+            ].map((camp, index) => (
+              <div
+                key={index}
+                className="relative bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
+              >
+                {/* Timeline Dot */}
+                <div className="absolute -left-[1.15rem] top-6 w-4 h-4 bg-red-600 rounded-full border-4 border-white shadow"></div>
+
+                <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                  📍 {camp.venue},{" "}
+                  <span className="text-indigo-600">{camp.city}</span>
+                </h3>
+                <p className="text-gray-700 flex items-center gap-2">
+                  🗓️ <span>{camp.date}</span>
+                </p>
+                <p className="text-gray-600 flex items-center gap-2 mb-4">
+                  ⏰ <span>{camp.time}</span>
+                </p>
+                <a
+                  href={camp.link}
+                  className="inline-flex items-center gap-2 px-6 py-2 font-semibold rounded-full transition hover:bg-red-300 border border-1 border-red-600"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                  Register Now
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-6">
+          <a
+            href="/all-camps"
+            className="inline-flex items-center gap-2 px-4 py-2 text-indigo-800 font-medium border border-indigo-200 rounded-md hover:bg-indigo-50 hover:text-indigo-900 transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          >
+            View All Camps
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      {/* Sponsors / Partners Section */}
+      <section className="py-20 px-6 bg-white text-center">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-700 mb-6">
+          Our Trusted Partners
+        </h2>
+        <p className="text-gray-600 max-w-2xl mx-auto mb-12 text-lg md:text-xl">
+          We are proud to be supported by these amazing organizations that help
+          us make a difference.
+        </p>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10 items-center justify-center max-w-5xl mx-auto">
+          {/* Partner 1 */}
+          <div className="transform hover:scale-105 transition duration-300">
+            <img
+              src="/assets/sponsors/apollo_hospital.webp"
+              alt="Apollo Hospital"
+              className="mx-auto h-20 object-contain grayscale hover:grayscale-0 transition"
+            />
+          </div>
+
+          {/* Partner 2 */}
+          <div className="transform hover:scale-105 transition duration-300">
+            <img
+              src="/assets/sponsors/red_cross.webp"
+              alt="Red Cross"
+              className="mx-auto h-20 object-contain grayscale hover:grayscale-0 transition"
+            />
+          </div>
+
+          {/* Partner 3 */}
+          <div className="transform hover:scale-105 transition duration-300">
+            <img
+              src="/assets/sponsors/who.webp"
+              alt="World Health Organization"
+              className="mx-auto h-20 object-contain grayscale hover:grayscale-0 transition"
+            />
+          </div>
+
+          {/* Partner 4 */}
+          <div className="transform hover:scale-105 transition duration-300">
+            <img
+              src="/assets/sponsors/ngo_bloodcare.webp"
+              alt="BloodCare NGO"
+              className="mx-auto h-20 object-contain grayscale hover:grayscale-0 transition"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Hero Call to Action Section */}
       <section className="relative bg-gradient-to-br from-red-700 via-red-600 to-red-500 text-white py-20 px-4 sm:px-8 text-center overflow-hidden">
         {/* Blurred Animated Pulse Background */}

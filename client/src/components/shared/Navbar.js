@@ -23,7 +23,6 @@ const navItems = [
   },
   { name: "About Us", path: "/about", icon: <Info size={18} /> },
   { name: "Contact", path: "/contact", icon: <Mail size={18} /> },
-  { name: "Login", path: "/login", icon: <LogIn size={18} /> },
 ];
 
 const Navbar = () => {
@@ -63,6 +62,32 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+
+          {/* Login/Register Dropdown */}
+          <li className="relative group">
+            <div className="flex items-center gap-1 hover:text-red-600 transition cursor-pointer">
+              <LogIn size={18} />
+              Account
+            </div>
+            <div
+              className="absolute top-full right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg 
+    opacity-0 group-hover:opacity-100 group-hover:visible 
+    invisible transition-all duration-300 ease-in-out z-10"
+            >
+              <Link
+                to="/login"
+                className="block px-4 py-2 hover:bg-gray-200 text-gray-700 hover:text-red-600"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="block px-4 py-2 hover:bg-gray-200 text-gray-700 hover:text-red-600"
+              >
+                Register
+              </Link>
+            </div>
+          </li>
         </ul>
 
         {/* CTA + Theme Toggle */}
@@ -119,6 +144,28 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+          {/* Inside Mobile Drawer ul */}
+          <li>
+            <Link
+              to="/login"
+              className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-red-100 hover:text-red-600 transition"
+              onClick={() => setIsOpen(false)}
+            >
+              <LogIn size={18} />
+              Login
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/register"
+              className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-red-100 hover:text-red-600 transition"
+              onClick={() => setIsOpen(false)}
+            >
+              <LogIn size={18} />
+              Register
+            </Link>
+          </li>
+
           <li className="text-center mt-4">
             <Link
               to="/donate"
