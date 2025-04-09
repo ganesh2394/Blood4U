@@ -122,6 +122,8 @@ const OrgDashboard = () => {
             <input
               type="number"
               placeholder="Eg: 500"
+              min={1}
+              max={1000}
               className="w-full border p-2 rounded"
               value={formData.quantity}
               onChange={(e) =>

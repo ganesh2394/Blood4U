@@ -129,6 +129,8 @@ const DonorDashboard = () => {
               type="number"
               className="w-full border p-2 rounded"
               placeholder="Eg: 350"
+              min={1}
+              max={1000}
               value={formData.quantity}
               onChange={(e) =>
                 setFormData({ ...formData, quantity: e.target.value })

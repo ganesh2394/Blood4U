@@ -203,7 +203,7 @@ const InventoryForm = ({ userRole }) => {
             <option value="">Select Organization</option>
             {organizations.map((org) => (
               <option key={org._id} value={org._id}>
-                {org.name}
+                {org.organizationName}
               </option>
             ))}
           </select>
@@ -223,7 +223,7 @@ const InventoryForm = ({ userRole }) => {
               <option value="">Select Hospital</option>
               {hospitals.map((hosp) => (
                 <option key={hosp._id} value={hosp._id}>
-                  {hosp.name}
+                  {hosp.hospitalName}
                 </option>
               ))}
             </select>
