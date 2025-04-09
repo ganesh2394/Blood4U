@@ -8,9 +8,21 @@ const DonorDashboard = () => {
   const [organizations, setOrganizations] = useState([]);
   const [formData, setFormData] = useState({ quantity: "", organization: "" });
   const [loading, setLoading] = useState(false);
+  const [username, setUserName] = useState();
 
   const token = localStorage.getItem("authToken");
 
+  // Get User Deteails
+  const getUserDetails = async () => {
+    try {
+      const res = await axios(`http://localhost:8080/api/auth/current-user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserName(res.data?.user?.name);
+    } catch (error) {}
+  };
   // Fetch donation history
   const getDonationHistory = async () => {
     setLoading(true);
@@ -86,6 +98,7 @@ const DonorDashboard = () => {
   useEffect(() => {
     getDonationHistory();
     getOrganizations();
+    getUserDetails();
   }, []);
 
   const totalQuantity = donationHistory.reduce(
@@ -95,8 +108,12 @@ const DonorDashboard = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Welcome Donor 👋</h1>
-
+      <div className="mb-4">
+        <h1 className="text-2xl font-bold">Welcome Donor 👋</h1>
+        <div className="font-mono text-gray-600 text-lg">
+          <span className="text-purple-700 font-semibold">{username}</span>
+        </div>
+      </div>
       {/* Summary */}
       <div className="bg-green-100 border border-green-400 text-green-700 p-3 rounded mb-4">
         <strong>Total Blood Donated:</strong> {totalQuantity} ml
@@ -135,7 +152,7 @@ const DonorDashboard = () => {
               <option value="">-- Select --</option>
               {organizations.map((org) => (
                 <option key={org._id} value={org._id}>
-                  {org.name}
+                  {org.organizationName}
                 </option>
               ))}
             </select>
