@@ -213,14 +213,14 @@ const Home = () => {
             <ul className="text-gray-700 mt-2 space-y-2 leading-relaxed list-disc list-inside">
               <li>
                 <strong>O-</strong> is the{" "}
-                <span className="text-green-600 font-medium">
+                <span className="text-green-600 font-medium capitalize">
                   universal donor
                 </span>
                 .
               </li>
               <li>
                 <strong>AB+</strong> is the{" "}
-                <span className="text-green-600 font-medium">
+                <span className="text-green-600 font-medium capitalize">
                   universal recipient
                 </span>
                 .
@@ -332,7 +332,7 @@ const Home = () => {
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {/* Step 1 */}
           <div className="bg-white hover:shadow-xl transition-shadow duration-300 p-6 rounded-2xl text-center border border-red-100">
-            <FaUsers className="text-red-600 text-5xl mx-auto mb-4" />
+            <FaUsers className="text-blue-600 text-5xl mx-auto mb-4 transition-all duration-200" />
             <h3 className="text-xl font-bold text-gray-800 mb-1">
               Join Our Community
             </h3>
@@ -344,7 +344,7 @@ const Home = () => {
 
           {/* Step 2 */}
           <div className="bg-white hover:shadow-xl transition-shadow duration-300 p-6 rounded-2xl text-center border border-red-100">
-            <FaMapMarkerAlt className="text-red-600 text-5xl mx-auto mb-4" />
+            <FaMapMarkerAlt className="text-blue-600 text-5xl mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-800 mb-1">
               Find a Nearby Center
             </h3>
@@ -356,7 +356,7 @@ const Home = () => {
 
           {/* Step 3 */}
           <div className="bg-white hover:shadow-xl transition-shadow duration-300 p-6 rounded-2xl text-center border border-red-100">
-            <FaCalendarCheck className="text-red-600 text-5xl mx-auto mb-4" />
+            <FaCalendarCheck className="text-blue-600 text-5xl mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-800 mb-1">
               Book Your Slot
             </h3>

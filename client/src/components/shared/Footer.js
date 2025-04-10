@@ -44,7 +44,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-red-400">
+          <h3 className="text-lg font-semibold mb-4 text-red-400 ">
             Quick Links
           </h3>
           <ul className="space-y-2 text-sm text-gray-300">
@@ -59,7 +59,7 @@ const Footer = () => {
               <li key={index}>
                 <Link
                   to={link.to}
-                  className="hover:text-red-300 transition duration-200"
+                  className="hover:text-blue-500 transition duration-200"
                 >
                   {link.label}
                 </Link>
@@ -80,7 +80,7 @@ const Footer = () => {
             </li>
             <li className="flex items-center">
               <Phone className="w-5 h-5 mr-2 text-red-300" />
-              +91 98765 43210
+              +91 70897 80578
             </li>
             <li className="flex items-center">
               <Mail className="w-5 h-5 mr-2 text-red-300" />
@@ -124,7 +124,7 @@ const Footer = () => {
               href="https://www.facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-red-400"
+              className="hover:text-indigo-400"
               aria-label="Facebook"
             >
               <Facebook />
@@ -133,7 +133,7 @@ const Footer = () => {
               href="https://www.twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-red-400"
+              className="hover:text-indigo-400"
               aria-label="Twitter"
             >
               <Twitter />
@@ -142,7 +142,7 @@ const Footer = () => {
               href="https://www.instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-red-400"
+              className="hover:text-indigo-400"
               aria-label="Instagram"
             >
               <Instagram />

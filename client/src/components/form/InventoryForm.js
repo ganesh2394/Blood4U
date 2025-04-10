@@ -15,10 +15,24 @@ const InventoryForm = ({ userRole }) => {
   const [organizations, setOrganizations] = useState([]);
   const [hospitals, setHospitals] = useState([]);
   const [donors, setDonors] = useState([]);
-
+  const [currentUser, setCurrentUser] = useState(null);
+  const [organizationForHospitalAndAdmin, setOrganizationsForHospitalAndAdmin] =
+    useState([]);
   const token = localStorage.getItem("authToken");
-
   useEffect(() => {
+    const getCurrentUser = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8080/api/auth/current-user",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCurrentUser(res.data?.user);
+      } catch (error) {}
+    };
     const fetchData = async () => {
       try {
         if (["admin", "donor"].includes(userRole)) {
@@ -29,6 +43,16 @@ const InventoryForm = ({ userRole }) => {
             }
           );
           setOrganizations(res.data.organizations || []);
+        }
+
+        if (["admin", "hospital"].includes(userRole)) {
+          const res = await axios.get(
+            "http://localhost:8080/api/inventory/organizations/hospital",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          setOrganizationsForHospitalAndAdmin(res.data.organizations || []);
         }
 
         if (["admin", "organization"].includes(userRole)) {
@@ -55,8 +79,8 @@ const InventoryForm = ({ userRole }) => {
         message.error("Failed to load dropdown data.");
       }
     };
-
     fetchData();
+    getCurrentUser();
   }, [userRole, token]);
 
   const handleChange = (e) => {
@@ -90,9 +114,16 @@ const InventoryForm = ({ userRole }) => {
         inventoryType: formData.inventoryType,
         bloodGroup: formData.bloodGroup,
         quantity: formData.quantity,
-        organization: formData.organization,
-        hospital: formData.hospital || undefined,
-        donor: formData.donor || undefined,
+        organization:
+          userRole === "organization"
+            ? currentUser?._id
+            : formData.organization,
+        hospital:
+          userRole === "hospital"
+            ? currentUser?._id
+            : formData.hospital || undefined,
+        donor:
+          userRole === "donor" ? currentUser?._id : formData.donor || undefined,
       };
 
       const { data } = await axios.post(apiUrl, requestData, config);
@@ -193,40 +224,63 @@ const InventoryForm = ({ userRole }) => {
         {/* Organization */}
         <label className="flex flex-col mt-4">
           <span className="font-medium text-gray-700 mb-2">Organization</span>
-          <select
-            name="organization"
-            value={formData.organization}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-md p-2"
-            required
-          >
-            <option value="">Select Organization</option>
-            {organizations.map((org) => (
-              <option key={org._id} value={org._id}>
-                {org.organizationName}
-              </option>
-            ))}
-          </select>
+
+          {userRole === "organization" ? (
+            <input
+              type="text"
+              value={currentUser?.name || "Your Organization"}
+              readOnly
+              className="border border-gray-300 rounded-md p-2 bg-gray-100 cursor-not-allowed"
+            />
+          ) : (
+            // Show dropdown for other roles
+            <select
+              name="organization"
+              value={formData.organization}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md p-2"
+              required
+            >
+              <option value="">Select Organization</option>
+              {(userRole === "hospital"
+                ? organizationForHospitalAndAdmin
+                : organizations
+              ).map((org) => (
+                <option key={org._id} value={org._id}>
+                  {org.organizationName || org.organization}
+                </option>
+              ))}
+            </select>
+          )}
         </label>
 
         {/* Hospital (for Outgoing) */}
         {formData.inventoryType === "out" && userRole !== "donor" && (
           <label className="flex flex-col mt-4">
             <span className="font-medium text-gray-700 mb-2">Hospital</span>
-            <select
-              name="hospital"
-              value={formData.hospital}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-md p-2"
-              required
-            >
-              <option value="">Select Hospital</option>
-              {hospitals.map((hosp) => (
-                <option key={hosp._id} value={hosp._id}>
-                  {hosp.hospitalName}
-                </option>
-              ))}
-            </select>
+            {userRole === "hospital" ? (
+              <input
+                type="text"
+                value={currentUser?.name || "Your Hospital"}
+                readOnly
+                className="border border-gray-300 rounded-md p-2 bg-gray-100 cursor-not-allowed"
+              />
+            ) : (
+              <select
+                name="hospital"
+                value={formData.hospital}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md p-2"
+                required
+              >
+                <option value="">Select Hospital</option>
+                {hospitals.map((hosp) => (
+                  <option key={hosp._id} value={hosp._id}>
+                    {hosp.hospitalName}
+                  </option>
+                ))}
+              </select>
+            )}
           </label>
         )}
 
@@ -234,20 +288,29 @@ const InventoryForm = ({ userRole }) => {
         {formData.inventoryType === "in" && userRole !== "hospital" && (
           <label className="flex flex-col mt-4">
             <span className="font-medium text-gray-700 mb-2">Donor</span>
-            <select
-              name="donor"
-              value={formData.donor}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-md p-2"
-              required
-            >
-              <option value="">Select Donor</option>
-              {donors.map((donor) => (
-                <option key={donor._id} value={donor._id}>
-                  {donor.name}
-                </option>
-              ))}
-            </select>
+            {userRole === "donor" ? (
+              <input
+                type="text"
+                value={currentUser?.name || "Your Donor"}
+                readOnly
+                className="border border-gray-300 rounded-md p-2 bg-gray-100 cursor-not-allowed"
+              />
+            ) : (
+              <select
+                name="donor"
+                value={formData.donor}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-md p-2"
+                required
+              >
+                <option value="">Select Donor</option>
+                {donors.map((donor) => (
+                  <option key={donor._id} value={donor._id}>
+                    {donor.name}
+                  </option>
+                ))}
+              </select>
+            )}
           </label>
         )}
 
