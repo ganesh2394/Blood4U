@@ -5,8 +5,9 @@ import AuthLayout from "./components/layout/AuthLayout";
 import PublicRoutes from "./components/routes/PublicRoutes";
 import DashboardLayout from "./components/layout/DashboardLayout";
 import PrivateRoute from "./components/routes/PrivateRoute";
-import LoadingScreen from "./components/LoadingScreen"; // Direct import for faster loading
+import LoadingScreen from "./components/LoadingScreen";
 import InventoryForm from "./components/form/InventoryForm";
+import Analytics from "./components/analytics/Analytics";
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
 
@@ -127,6 +128,7 @@ const App = () => {
               path="/org-dashboard/inventory"
               element={<InventoryForm userRole={"organization"} />}
             />
+            <Route path="/org-dashboard/analytics" element={<Analytics />} />
           </Route>
 
           {/* Donor Routes */}
@@ -183,6 +185,7 @@ const App = () => {
               path="/admin-dashboard/inventory"
               element={<InventoryForm userRole={"admin"} />}
             />
+            <Route path="/admin-dashboard/analytics" element={<Analytics />} />
           </Route>
         </Route>
       </Routes>

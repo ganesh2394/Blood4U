@@ -6,6 +6,7 @@ import {
   FaClipboardList,
   FaHandHoldingHeart,
   FaBox,
+  FaChartBar,
 } from "react-icons/fa";
 import SidebarCommon from "../SidebarCommon";
 
@@ -35,6 +36,10 @@ const AdminSidebar = () => {
         <li className="flex items-center">
           <FaBox className="mr-3" />
           <Link to="/admin-dashboard/inventory">Manage Inventory</Link>
+        </li>
+        <li className="flex items-center">
+          <FaChartBar className="mr-3" />
+          <Link to="/admin-dashboard/analytics">Analytics</Link>
         </li>
       </ul>
       <div className="mt-4">
