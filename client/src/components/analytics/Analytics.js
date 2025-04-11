@@ -192,34 +192,6 @@ const Analytics = () => {
               </table>
             </div>
           </div>
-          {/* Blood Group Details Table */}
-          <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-              Blood Group Details
-            </h2>
-            <div className="overflow-x-auto">
-              <table className="min-w-full table-auto text-left text-gray-700">
-                <thead className="bg-gray-200">
-                  <tr>
-                    <th className="py-3 px-6">Blood Group</th>
-                    <th className="py-3 px-6">In Stock</th>
-                    <th className="py-3 px-6">Out of Stock</th>
-                    <th className="py-3 px-6">Available</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {analyticsData.map((item) => (
-                    <tr key={item._id} className="border-t hover:bg-gray-100">
-                      <td className="py-3 px-6">{item.bloodGroup}</td>
-                      <td className="py-3 px-6">{item.in.total}</td>
-                      <td className="py-3 px-6">{item.out.total}</td>
-                      <td className="py-3 px-6">{item.available}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
 
           {/* Display Total Stock Information */}
           <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
@@ -227,15 +199,15 @@ const Analytics = () => {
               Total Stock Summary
             </h2>
             <div className="grid grid-cols-3 gap-6">
-              <div className="bg-gray-100 p-4 rounded-lg shadow-md text-center">
+              <div className="border hover:border-b-blue-400 bg-gray-100 p-4 rounded-lg shadow-md text-center">
                 <h3 className="text-xl font-semibold">Total In Stock</h3>
                 <p className="text-2xl">{totalInStock}</p>
               </div>
-              <div className="bg-gray-100 p-4 rounded-lg shadow-md text-center">
+              <div className="border hover:border-b-blue-400 bg-gray-100 p-4 rounded-lg shadow-md text-center">
                 <h3 className="text-xl font-semibold">Total Out of Stock</h3>
                 <p className="text-2xl">{totalOutOfStock}</p>
               </div>
-              <div className="bg-gray-100 p-4 rounded-lg shadow-md text-center">
+              <div className="border hover:border-b-blue-400 bg-gray-100 p-4 rounded-lg shadow-md text-center">
                 <h3 className="text-xl font-semibold">Total Available Stock</h3>
                 <p className="text-2xl">{totalAvailable}</p>
               </div>

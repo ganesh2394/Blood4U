@@ -13,6 +13,7 @@ const {
   deleteInventoryController,
   updateInventoryController,
   getHospitalRequestsController,
+  getInventoryAnalytics,
 } = require("../controllers/inventoryController");
 
 const router = express.Router();
@@ -134,6 +135,13 @@ router.get(
   authMiddleware,
   roleMiddleware(["hospital"]),
   getHospitalRequestsController
+);
+// Analytics route to get in/out quantity and available stock per blood group
+router.get(
+  "/analytics",
+  authMiddleware,
+  roleMiddleware(["admin", "organization"]),
+  getInventoryAnalytics
 );
 
 module.exports = router;

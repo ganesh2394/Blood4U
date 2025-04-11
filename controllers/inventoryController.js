@@ -341,3 +341,79 @@ exports.getHospitalRequestsController = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+exports.getInventoryAnalytics = async (req, res) => {
+  try {
+    const analytics = await Inventory.aggregate([
+      {
+        $group: {
+          _id: {
+            bloodGroup: "$bloodGroup",
+            inventoryType: "$inventoryType",
+          },
+          totalQuantity: { $sum: "$quantity" },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.bloodGroup",
+          stats: {
+            $push: {
+              type: "$_id.inventoryType",
+              total: "$totalQuantity",
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          bloodGroup: "$_id",
+          in: {
+            $ifNull: [
+              {
+                $first: {
+                  $filter: {
+                    input: "$stats",
+                    as: "item",
+                    cond: { $eq: ["$$item.type", "in"] },
+                  },
+                },
+              },
+              { type: "in", total: 0 },
+            ],
+          },
+          out: {
+            $ifNull: [
+              {
+                $first: {
+                  $filter: {
+                    input: "$stats",
+                    as: "item",
+                    cond: { $eq: ["$$item.type", "out"] },
+                  },
+                },
+              },
+              { type: "out", total: 0 },
+            ],
+          },
+        },
+      },
+      {
+        $addFields: {
+          available: { $subtract: ["$in.total", "$out.total"] },
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: analytics,
+    });
+  } catch (error) {
+    console.error("Error in getInventoryAnalytics:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch inventory analytics",
+    });
+  }
+};
