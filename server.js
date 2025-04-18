@@ -8,6 +8,7 @@ const testRoutes = require("./routes/testRoute");
 const authRoutes = require("./routes/authRoute");
 const inventoryRoutes = require("./routes/inventoryRoutes");
 const path = require("path");
+const __dirname = path.resolve();
 
 dotenv.config();
 const app = express();
@@ -30,7 +31,7 @@ app.use("/api/inventory", inventoryRoutes);
 
 // Serve frontend in production
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "./client/build")));
+  app.use(express.static(path.join(__dirname, "client/build")));
 
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
