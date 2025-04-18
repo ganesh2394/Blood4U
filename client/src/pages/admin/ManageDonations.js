@@ -29,7 +29,7 @@ const ManageDonations = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        "http://localhost:8080/api/inventory/all",
+        process.env.REACT_APP_API_URL + "/api/inventory/all",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -84,11 +84,14 @@ const ManageDonations = () => {
   // Delete entry
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/inventory/delete/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      });
+      await axios.delete(
+        process.env.REACT_APP_API_URL + `/api/inventory/delete/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
       message.success("Donation deleted");
       getAllDonations();
     } catch (err) {

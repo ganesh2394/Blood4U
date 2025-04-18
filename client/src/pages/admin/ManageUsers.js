@@ -18,7 +18,9 @@ const ManageUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/auth/users");
+      const response = await fetch(
+        process.env.REACT_APP_API_URL + "/api/auth/users"
+      );
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -46,7 +48,7 @@ const ManageUsers = () => {
   const handleDeleteUser = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/auth/users/delete/${id}`,
+        process.env.REACT_APP_API_URL + `/api/auth/users/delete/${id}`,
         { method: "DELETE" }
       );
       if (response.ok) {
@@ -63,7 +65,8 @@ const ManageUsers = () => {
   const handleSaveUser = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/auth/users/update/${currentUser._id}`,
+        process.env.REACT_APP_API_URL +
+          `/api/auth/users/update/${currentUser._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

@@ -24,7 +24,7 @@ const InventoryList = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        "http://localhost:8080/api/inventory/all",
+        process.env.REACT_APP_API_URL + "/api/inventory/all",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ const InventoryList = () => {
     try {
       const token = localStorage.getItem("authToken");
       const res = await axios.delete(
-        `http://localhost:8080/api/inventory/delete/${id}`,
+        process.env.REACT_APP_API_URL + `/api/inventory/delete/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -84,7 +84,8 @@ const InventoryList = () => {
       const values = await form.validateFields();
 
       const res = await axios.put(
-        `http://localhost:8080/api/inventory/update/${currentRecord._id}`,
+        process.env.REACT_APP_API_URL +
+          `/api/inventory/update/${currentRecord._id}`,
         values,
         {
           headers: { Authorization: `Bearer ${token}` },

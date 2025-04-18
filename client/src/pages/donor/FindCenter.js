@@ -10,7 +10,7 @@ const FindCenter = () => {
     try {
       const token = localStorage.getItem("authToken");
       const res = await axios.get(
-        "http://localhost:8080/api/inventory/organizations",
+        process.env.REACT_APP_API_URL + "/api/inventory/organizations",
         {
           headers: {
             Authorization: `Bearer ${token}`,

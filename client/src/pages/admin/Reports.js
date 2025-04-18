@@ -24,7 +24,7 @@ const Reports = () => {
 
       // Fetch all inventory (admin)
       const inventoryRes = await axios.get(
-        "http://localhost:8080/api/inventory/all",
+        process.env.REACT_APP_API_URL + "/api/inventory/all",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ const Reports = () => {
 
       // Centers Active (hospitals)
       const centersRes = await axios.get(
-        "http://localhost:8080/api/inventory/hospitals",
+        process.env.REACT_APP_API_URL + "/api/inventory/hospitals",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,7 +66,7 @@ const Reports = () => {
 
       // Recent Donations
       const recentRes = await axios.get(
-        "http://localhost:8080/api/inventory/recent",
+        process.env.REACT_APP_API_URL + "/api/inventory/recent",
         {
           headers: {
             Authorization: `Bearer ${token}`,

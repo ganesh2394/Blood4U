@@ -15,11 +15,14 @@ const DonorDashboard = () => {
   // Get User Deteails
   const getUserDetails = async () => {
     try {
-      const res = await axios(`http://localhost:8080/api/auth/current-user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios(
+        process.env.REACT_APP_API_URL + `/api/auth/current-user`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setUserName(res.data?.user?.name);
     } catch (error) {}
   };
@@ -27,11 +30,14 @@ const DonorDashboard = () => {
   const getDonationHistory = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:8080/api/inventory/all", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        process.env.REACT_APP_API_URL + "/api/inventory/all",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const donorDonations = res.data.inventory.filter(
         (entry) => entry.inventoryType === "in"
       );
@@ -48,7 +54,7 @@ const DonorDashboard = () => {
   const getOrganizations = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/inventory/organizations",
+        process.env.REACT_APP_API_URL + "/api/inventory/organizations",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -75,7 +81,7 @@ const DonorDashboard = () => {
 
     try {
       await axios.post(
-        "http://localhost:8080/api/inventory/create-in",
+        process.env.REACT_APP_API_URL + "/api/inventory/create-in",
         {
           ...formData,
           inventoryType: "in",

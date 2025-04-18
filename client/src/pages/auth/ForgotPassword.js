@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     try {
       // Call the API to check if email & role exist
       const response = await axios.post(
-        "http://localhost:8080/api/auth/forgot-password",
+        process.env.REACT_APP_API_URL + "/api/auth/forgot-password",
         {
           email,
           role,

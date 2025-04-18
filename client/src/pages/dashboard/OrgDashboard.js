@@ -19,7 +19,7 @@ const OrgDashboard = () => {
   const fetchInventory = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/inventory/recent",
+        process.env.REACT_APP_API_URL + "/api/inventory/recent",
         { headers }
       );
       setInventory(res.data.inventory);
@@ -31,7 +31,7 @@ const OrgDashboard = () => {
   const fetchDonors = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/inventory/donors",
+        process.env.REACT_APP_API_URL + "/api/inventory/donors",
         { headers }
       );
       setDonors(res.data.donors);
@@ -43,7 +43,7 @@ const OrgDashboard = () => {
   const fetchHospitals = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/inventory/hospitals",
+        process.env.REACT_APP_API_URL + "/api/inventory/hospitals",
         { headers }
       );
       setHospitals(res.data.hospitals);
@@ -55,7 +55,10 @@ const OrgDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/api/inventory/create", formData);
+      await axios.post(
+        process.env.REACT_APP_API_URL + "/api/inventory/create",
+        formData
+      );
       alert("Inventory created successfully!");
       fetchInventory();
       setFormData({ inventoryType: "in", bloodGroup: "", quantity: "" });

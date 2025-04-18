@@ -17,7 +17,7 @@ const HospitalDashboard = () => {
   const fetchOrganizations = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/inventory/organizations/hospital",
+        process.env.REACT_APP_API_URL + "/api/inventory/organizations/hospital",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ const HospitalDashboard = () => {
   const fetchHospitalRequests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/inventory/hospital-requests",
+        process.env.REACT_APP_API_URL + "/api/inventory/hospital-requests",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ const HospitalDashboard = () => {
       const hospitalId = localStorage.getItem("userId");
 
       const response = await axios.post(
-        "http://localhost:8080/api/inventory/hospital-inventory",
+        process.env.REACT_APP_API_URL + "/api/inventory/hospital-inventory",
         {
           hospitalId,
         },
@@ -77,7 +77,7 @@ const HospitalDashboard = () => {
     e.preventDefault();
     try {
       await axios.post(
-        "http://localhost:8080/api/inventory/create-out",
+        process.env.REACT_APP_API_URL + "/api/inventory/create-out",
         {
           ...formData,
           inventoryType: "out",

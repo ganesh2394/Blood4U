@@ -16,7 +16,7 @@ const RequestBlood = () => {
   const getOrganizations = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/inventory/organizations/hospital",
+        process.env.REACT_APP_API_URL + "/api/inventory/organizations/hospital",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -33,7 +33,7 @@ const RequestBlood = () => {
   const getMyRequests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/inventory/hospital-requests",
+        process.env.REACT_APP_API_URL + "/api/inventory/hospital-requests",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -56,7 +56,7 @@ const RequestBlood = () => {
     try {
       setLoading(true);
       await axios.post(
-        "http://localhost:8080/api/inventory/create",
+        process.env.REACT_APP_API_URL + "/api/inventory/create",
         {
           inventoryType: "out",
           bloodGroup,

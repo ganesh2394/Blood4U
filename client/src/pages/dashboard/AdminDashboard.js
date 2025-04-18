@@ -29,15 +29,27 @@ const AdminDashboard = () => {
 
       const [donorsRes, hospitalsRes, orgsRes, inventoryRes, recentRes] =
         await Promise.all([
-          axios.get("http://localhost:8080/api/inventory/donors", { headers }),
-          axios.get("http://localhost:8080/api/inventory/hospitals", {
+          axios.get(process.env.REACT_APP_API_URL + "/api/inventory/donors", {
             headers,
           }),
-          axios.get("http://localhost:8080/api/inventory/organizations", {
+          axios.get(
+            process.env.REACT_APP_API_URL + "/api/inventory/hospitals",
+            {
+              headers,
+            }
+          ),
+          axios.get(
+            process.env.REACT_APP_API_URL + "/api/inventory/organizations",
+            {
+              headers,
+            }
+          ),
+          axios.get(process.env.REACT_APP_API_URL + "/api/inventory/all", {
             headers,
           }),
-          axios.get("http://localhost:8080/api/inventory/all", { headers }),
-          axios.get("http://localhost:8080/api/inventory/recent", { headers }),
+          axios.get(process.env.REACT_APP_API_URL + "/api/inventory/recent", {
+            headers,
+          }),
         ]);
 
       // console.log("Donor Res : ", donorsRes);

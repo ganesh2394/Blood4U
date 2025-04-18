@@ -23,7 +23,7 @@ const InventoryForm = ({ userRole }) => {
     const getCurrentUser = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8080/api/auth/current-user",
+          process.env.REACT_APP_API_URL + "/api/auth/current-user",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ const InventoryForm = ({ userRole }) => {
       try {
         if (["admin", "donor"].includes(userRole)) {
           const res = await axios.get(
-            "http://localhost:8080/api/inventory/organizations",
+            process.env.REACT_APP_API_URL + "/api/inventory/organizations",
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -47,7 +47,8 @@ const InventoryForm = ({ userRole }) => {
 
         if (["admin", "hospital"].includes(userRole)) {
           const res = await axios.get(
-            "http://localhost:8080/api/inventory/organizations/hospital",
+            process.env.REACT_APP_API_URL +
+              "/api/inventory/organizations/hospital",
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -57,7 +58,7 @@ const InventoryForm = ({ userRole }) => {
 
         if (["admin", "organization"].includes(userRole)) {
           const res = await axios.get(
-            "http://localhost:8080/api/inventory/hospitals",
+            process.env.REACT_APP_API_URL + "/api/inventory/hospitals",
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -67,7 +68,7 @@ const InventoryForm = ({ userRole }) => {
 
         if (["admin", "organization"].includes(userRole)) {
           const res = await axios.get(
-            "http://localhost:8080/api/inventory/donors",
+            process.env.REACT_APP_API_URL + "/api/inventory/donors",
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -100,7 +101,7 @@ const InventoryForm = ({ userRole }) => {
         },
       };
 
-      let apiUrl = "http://localhost:8080/api/inventory";
+      let apiUrl = process.env.REACT_APP_API_URL + "/api/inventory";
 
       if (userRole === "donor") {
         apiUrl += "/create-in";

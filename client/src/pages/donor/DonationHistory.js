@@ -16,14 +16,17 @@ const DonationHistory = () => {
 
   const getDonorHistory = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/inventory/all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      });
+      const res = await axios.get(
+        process.env.REACT_APP_API_URL + "/api/inventory/all",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
 
       const currentUserRes = await axios.get(
-        "http://localhost:8080/api/auth/current-user",
+        process.env.REACT_APP_API_URL + "/api/auth/current-user",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,

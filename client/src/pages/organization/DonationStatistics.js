@@ -17,11 +17,14 @@ const DonationStatistics = () => {
 
   const fetchInventory = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/inventory/all", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        process.env.REACT_APP_API_URL + "/api/inventory/all",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const data = res.data?.inventory || [];
 

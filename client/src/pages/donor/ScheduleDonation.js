@@ -20,7 +20,7 @@ const ScheduleDonation = () => {
         const token = localStorage.getItem("authToken");
 
         const userRes = await axios.get(
-          "http://localhost:8080/api/auth/current-user",
+          process.env.REACT_APP_API_URL + "/api/auth/current-user",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ const ScheduleDonation = () => {
         setUser(userRes.data.user);
 
         const orgRes = await axios.get(
-          "http://localhost:8080/api/inventory/organizations",
+          process.env.REACT_APP_API_URL + "/api/inventory/organizations",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -80,11 +80,15 @@ const ScheduleDonation = () => {
         createdAt: formData.date,
       };
 
-      await axios.post("http://localhost:8080/api/inventory/create", payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.post(
+        process.env.REACT_APP_API_URL + "/api/inventory/create",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setSuccessMessage("Donation scheduled successfully!");
       setFormData({

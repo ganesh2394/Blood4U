@@ -11,7 +11,6 @@ const path = require("path");
 
 dotenv.config();
 const app = express();
-
 connectDB();
 
 // Middleware
@@ -19,25 +18,19 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 
-// Routes at development
-// app.get("/", function (req, res) {
-//   res.send("Hello World");
-// });
-
+// Routes
 app.use("/api/test", testRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/inventory", inventoryRoutes);
 
 
-// Serve frontend in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "static", "index.html"));
+    res.sendFile(path.resolve(__dirname, "client", "build","index.html"));
   });
 } else {
-  // Default route in development
   app.get("/", function (req, res) {
     res.send("API is running...");
   });

@@ -38,7 +38,7 @@ const ProfilePage = () => {
         }
 
         const response = await axios.get(
-          "http://localhost:8080/api/auth/current-user",
+          process.env.REACT_APP_API_URL + "/api/auth/current-user",
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -63,7 +63,7 @@ const ProfilePage = () => {
     try {
       const token = localStorage.getItem("authToken");
       const response = await axios.put(
-        `http://localhost:8080/api/auth/users/update/${user._id}`,
+        process.env.REACT_APP_API_URL + `/api/auth/users/update/${user._id}`,
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
