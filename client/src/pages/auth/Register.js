@@ -265,6 +265,14 @@ const Register = () => {
               Login
             </Link>
           </p>
+          <div className="text-center mb-3">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-blue-600 font-normal hover:underline transition duration-200"
+            >
+              Back to Home
+            </Link>
+          </div>
         </div>
       </div>
     </div>

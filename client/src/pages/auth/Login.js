@@ -133,10 +133,19 @@ const Login = () => {
           />
         </div>
 
-        <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        <div className="w-full md:w-1/2 p-8 flex flex-col justify-center relative">
+          {/* Go to Home Link at Top Left */}
+          <Link
+            to="/"
+            className="absolute top-4 left-4 text-blue-600 font-normal hover:underline flex items-center space-x-2"
+          >
+            <span>Back to Home</span>
+          </Link>
+
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6 mt-3">
             Login
           </h2>
+
           <form onSubmit={handleSubmit}>
             {/* Role */}
             <div className="mb-4">

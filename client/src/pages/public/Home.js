@@ -121,29 +121,29 @@ const Home = () => {
       </section>
 
       <section className="bg-slate-200">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-x-4 h-[70vh]  px-6 py-6 mx-auto max-w-screen-lg">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-6 md:gap-x-10 px-6 py-10 mx-auto max-w-screen-xl">
           {/* Left */}
-          <div className="mb-6 md:mb-0 text-center md:text-left">
-            <h2 className="text-4xl font-extrabold text-red-600 mb-4 ">
+          <div className="w-full md:w-1/2 text-center md:text-left">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-red-600 mb-4">
               Donate Blood, Save Lives
             </h2>
-            <p className="text-gray-700 text-lg font-mono mb-4 w-3/4">
+            <p className="text-gray-700 text-base sm:text-lg font-mono mb-6 max-w-md mx-auto md:mx-0">
               Your blood donation can give someone another chance at life.
             </p>
             <Link
-              to={"/register"}
-              className="hover:bg-slate-300 text-black border border-1 border-black font-semibold py-2 px-6 rounded-lg transition-all duration-300"
+              to="/register"
+              className="inline-block hover:bg-slate-300 text-black border border-black font-semibold py-2 px-6 rounded-lg transition-all duration-300"
             >
               Register Here
             </Link>
           </div>
 
           {/* Right */}
-          <div className="flex justify-center">
+          <div className="w-full md:w-1/2 flex justify-center">
             <img
               src="/assets/images/donation_home.jpg"
               alt="Donate Blood"
-              className="w-80 h-auto rounded-xl shadow-md shadow-indigo-300"
+              className="w-64 sm:w-72 md:w-80 h-auto rounded-xl shadow-md shadow-indigo-300"
             />
           </div>
         </div>

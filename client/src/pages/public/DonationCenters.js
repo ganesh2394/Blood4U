@@ -43,6 +43,33 @@ const donationCenters = [
     openHours: "8 AM - 4 PM",
     contact: "+91 88990 44332",
   },
+  {
+    id: 4,
+    name: "Hope Blood Center",
+    city: "Bangalore",
+    lat: 12.9716,
+    lon: 77.5946,
+    openHours: "9 AM - 3 PM",
+    contact: "+91 77665 44321",
+  },
+  {
+    id: 5,
+    name: "Lifeline Blood Bank",
+    city: "Hyderabad",
+    lat: 17.385,
+    lon: 78.4867,
+    openHours: "10 AM - 4 PM",
+    contact: "+91 90909 80808",
+  },
+  {
+    id: 6,
+    name: "Unity Health Services",
+    city: "Kolkata",
+    lat: 22.5726,
+    lon: 88.3639,
+    openHours: "11 AM - 5 PM",
+    contact: "+91 70000 90000",
+  },
 ];
 
 const FlyToUser = ({ location }) => {
@@ -59,6 +86,11 @@ const DonationCenters = () => {
   const [search, setSearch] = useState("");
   const [filteredCenters, setFilteredCenters] = useState(donationCenters);
   const [userLocation, setUserLocation] = useState(null);
+  const [showAll, setShowAll] = useState(false);
+
+  const displayedCenters = showAll
+    ? filteredCenters
+    : filteredCenters.slice(0, 4);
 
   // Filter centers based on search input
   useEffect(() => {
@@ -153,20 +185,33 @@ const DonationCenters = () => {
           📋 Available Donation Centers
         </h2>
         {filteredCenters.length > 0 ? (
-          <div className="grid md:grid-cols-2 gap-4">
-            {filteredCenters.map((center) => (
-              <div
-                key={center.id}
-                className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow"
-              >
-                <h3 className="text-lg font-bold text-red-600">
-                  {center.name}
-                </h3>
-                <p className="text-gray-700">📍 {center.city}</p>
-                <p className="text-gray-700">⏰ {center.openHours}</p>
-                <p className="text-gray-700">📞 {center.contact}</p>
+          <div className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              {displayedCenters.map((center) => (
+                <div
+                  key={center.id}
+                  className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow"
+                >
+                  <h3 className="text-lg font-bold text-blue-600">
+                    {center.name}
+                  </h3>
+                  <p className="text-gray-700">📍 {center.city}</p>
+                  <p className="text-gray-700">⏰ {center.openHours}</p>
+                  <p className="text-gray-700">📞 {center.contact}</p>
+                </div>
+              ))}
+            </div>
+
+            {filteredCenters.length > 4 && (
+              <div className="text-right">
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className="text-blue-600 underline hover:text-blue-800 transition-colors"
+                >
+                  {showAll ? "Show Less" : "See More"}
+                </button>
               </div>
-            ))}
+            )}
           </div>
         ) : (
           <p className="text-red-500 text-center">No centers found.</p>
