@@ -14,8 +14,7 @@ const Analytics = () => {
     const fetchAnalytics = async () => {
       try {
         const response = await axios.get(
-          process.env.REACT_APP_API_URL +
-            "http://localhost:8080/api/inventory/analytics",
+          process.env.REACT_APP_API_URL + "/api/inventory/analytics",
           {
             headers: {
               Authorization: `Bearer ${token}`,
