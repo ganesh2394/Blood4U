@@ -125,6 +125,8 @@ const HospitalDashboard = () => {
               onChange={(e) =>
                 setFormData({ ...formData, quantity: e.target.value })
               }
+              min={1}
+              max={300}
               required
               placeholder="Enter quantity"
             />
@@ -164,7 +166,7 @@ const HospitalDashboard = () => {
               <option value="">-- Select --</option>
               {organizations.map((org) => (
                 <option key={org._id} value={org._id}>
-                  {org.name}
+                  {org.name || org.organizationName}
                 </option>
               ))}
             </select>
