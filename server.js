@@ -4,7 +4,6 @@ const cors = require("cors");
 const colors = require("colors");
 const morgan = require("morgan");
 const connectDB = require("./config/db");
-const testRoutes = require("./routes/testRoute");
 const authRoutes = require("./routes/authRoute");
 const inventoryRoutes = require("./routes/inventoryRoutes");
 const path = require("path");
@@ -19,16 +18,14 @@ app.use(cors());
 app.use(morgan("dev"));
 
 // Routes
-app.use("/api/test", testRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/inventory", inventoryRoutes);
-
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build","index.html"));
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 } else {
   app.get("/", function (req, res) {
