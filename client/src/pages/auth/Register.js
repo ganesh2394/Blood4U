@@ -181,7 +181,7 @@ const Register = () => {
                 type="email"
                 name="email"
                 required
-                placeholder="example@mail.com"
+                placeholder="example@gmail.com"
                 className="w-full border p-2 rounded"
                 value={formData.email}
                 onChange={handleChange}
