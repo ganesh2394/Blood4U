@@ -179,7 +179,7 @@ const Login = () => {
                 type="email"
                 name="email"
                 required
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded outline-none hover:border-blue-600"
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -194,7 +194,7 @@ const Login = () => {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 required
-                className="w-full border p-2 rounded pr-10"
+                className="w-full border p-2 rounded pr-10 outline-none hover:border-blue-600"
                 value={formData.password}
                 onChange={handleChange}
               />

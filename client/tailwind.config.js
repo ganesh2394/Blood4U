@@ -8,6 +8,11 @@ module.exports = {
       animation: {
         marquee: "marquee 40s linear infinite",
       },
+      fontFamily: {
+        notosans: ["Noto Sans", "sans-serif"],
+        worksans: ["Work Sans", "sans-serif"],
+        racesansone: ["Racing Sans One", "sans-serif"],
+      },
       keyframes: {
         marquee: {
           from: { transform: "translateX(100%)" },

@@ -131,8 +131,7 @@ const Register = () => {
                   type="text"
                   name="name"
                   required
-                  placeholder="Enter your full name"
-                  className="w-full border p-2 rounded"
+                  className="w-full border p-2 rounded outline-none hover:border-blue-600"
                   value={formData.name}
                   onChange={handleChange}
                 />
@@ -148,8 +147,7 @@ const Register = () => {
                   type="text"
                   name="organizationName"
                   required
-                  placeholder="Enter your organization"
-                  className="w-full border p-2 rounded"
+                  className="w-full border p-2 rounded outline-none hover:border-blue-600"
                   value={formData.organizationName}
                   onChange={handleChange}
                 />
@@ -165,8 +163,7 @@ const Register = () => {
                   type="text"
                   name="hospitalName"
                   required
-                  placeholder="Enter your hospital name"
-                  className="w-full border p-2 rounded"
+                  className="w-full border p-2 rounded outline-none hover:border-blue-600"
                   value={formData.hospitalName}
                   onChange={handleChange}
                 />
@@ -181,8 +178,7 @@ const Register = () => {
                 type="email"
                 name="email"
                 required
-                placeholder="example@gmail.com"
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded outline-none hover:border-blue-600"
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -196,8 +192,7 @@ const Register = () => {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 required
-                placeholder="Minimum 6 characters"
-                className="w-full border p-2 rounded pr-10"
+                className="w-full border p-2 rounded pr-10 outline-none hover:border-blue-600"
                 value={formData.password}
                 onChange={handleChange}
               />
@@ -214,8 +209,7 @@ const Register = () => {
               <input
                 type="text"
                 name="website"
-                className="w-full border p-2 rounded"
-                placeholder="https://your-site.com"
+                className="w-full border p-2 rounded outline-none hover:border-blue-600"
                 value={formData.website}
                 onChange={handleChange}
               />
@@ -229,8 +223,7 @@ const Register = () => {
                 type="text"
                 name="address"
                 required
-                placeholder="Enter your address"
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded outline-none hover:border-blue-600"
                 value={formData.address}
                 onChange={handleChange}
               />
@@ -244,8 +237,7 @@ const Register = () => {
                 type="text"
                 name="phone"
                 required
-                placeholder="10-digit mobile number"
-                className="w-full border p-2 rounded"
+                className="w-full border p-2 rounded outline-none hover:border-blue-600"
                 value={formData.phone}
                 onChange={handleChange}
               />

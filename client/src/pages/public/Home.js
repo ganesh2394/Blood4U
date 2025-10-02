@@ -1,5 +1,5 @@
-import { FaUsers, FaMapMarkerAlt, FaCalendarCheck } from "react-icons/fa";
 import React from "react";
+import { FaUsers, FaMapMarkerAlt, FaCalendarCheck } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -97,7 +97,7 @@ const Home = () => {
             Blood4U:{" "}
             <span className="text-red-500">Save a Life, Give Blood</span>
           </h1>
-          <p className="text-base md:text-xl mt-4 max-w-3xl mx-auto font-light text-white/90">
+          <p className=" font-notosans font-light md:text-xl mt-4 max-w-3xl mx-auto text-white/90">
             Your small act of kindness can be the difference between life and
             death. Join us in making an impact today!
           </p>
@@ -124,10 +124,10 @@ const Home = () => {
         <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-6 md:gap-x-10 px-6 py-10 mx-auto max-w-screen-xl">
           {/* Left */}
           <div className="w-full md:w-1/2 text-center md:text-left">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-red-600 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-red-600 mb-4 font-racesansone">
               Donate Blood, Save Lives
             </h2>
-            <p className="text-gray-700 text-base sm:text-lg font-mono mb-6 max-w-md mx-auto md:mx-0">
+            <p className="text-gray-700 text-base sm:text-lg font-worksans tracking-wide font-bold mb-6 max-w-md mx-auto md:mx-0">
               Your blood donation can give someone another chance at life.
             </p>
             <Link

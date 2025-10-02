@@ -120,7 +120,7 @@ const Navbar = () => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-4/5 sm:w-2/3 bg-white z-50 shadow-lg transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-4/5 sm:w-2/3 bg-white/70 z-50 shadow-lg transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -131,12 +131,12 @@ const Navbar = () => {
           </button>
         </div>
 
-        <ul className="px-4 py-6 space-y-4 text-base font-medium text-gray-800">
+        <ul className="px-4 py-6 space-y-4 text-base  bg-gray-200 font-medium text-gray-600">
           {navItems.map((item, idx) => (
             <li key={idx}>
               <Link
                 to={item.path}
-                className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-red-100 hover:text-red-600 transition"
+                className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-slate-400 hover:text-gray-100 transition"
                 onClick={() => setIsOpen(false)}
               >
                 {item.icon}
@@ -148,7 +148,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/login"
-              className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-red-100 hover:text-red-600 transition"
+              className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-slate-400 hover:text-gray-600 transition"
               onClick={() => setIsOpen(false)}
             >
               <LogIn size={18} />
@@ -158,7 +158,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/register"
-              className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-red-100 hover:text-red-600 transition"
+              className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-slate-400 hover:text-gray-600 transition"
               onClick={() => setIsOpen(false)}
             >
               <LogIn size={18} />
