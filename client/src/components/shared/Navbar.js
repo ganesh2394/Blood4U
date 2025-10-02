@@ -32,8 +32,8 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md fixed w-full top-0 z-50 shadow-md border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+    <nav className="bg-white/70 backdrop-blur-md fixed w-full top-0 z-50 shadow-md border-b border-gray-200">
+      <div className="max-w-8xl mx-auto px-6 lg:px-10 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link
           to="/"
@@ -48,41 +48,46 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <ul className="hidden md:flex gap-6 items-center text-gray-800 font-medium text-base">
+        <ul className="hidden md:flex gap-8 items-center text-gray-800 font-medium text-base">
           {navItems.map((item, idx) => (
             <li key={idx}>
               <Link
                 to={item.path}
-                className={`flex items-center gap-1 hover:text-red-600 transition duration-300 ${
-                  isActive(item.path) ? "text-red-600 font-semibold" : ""
+                className={`relative flex items-center gap-1 transition-colors duration-300 ${
+                  isActive(item.path)
+                    ? "text-red-600 font-semibold"
+                    : "hover:text-red-600"
                 }`}
               >
                 {item.icon}
                 {item.name}
+                <span
+                  className={`absolute left-0 -bottom-1 h-[2px] w-full bg-red-600 scale-x-0 origin-left transition-transform duration-300 ${
+                    isActive(item.path)
+                      ? "scale-x-100"
+                      : "group-hover:scale-x-100"
+                  }`}
+                ></span>
               </Link>
             </li>
           ))}
 
-          {/* Login/Register Dropdown */}
+          {/* Account Dropdown */}
           <li className="relative group">
             <div className="flex items-center gap-1 hover:text-red-600 transition cursor-pointer">
               <LogIn size={18} />
               Account
             </div>
-            <div
-              className="absolute top-full right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg 
-    opacity-0 group-hover:opacity-100 group-hover:visible 
-    invisible transition-all duration-300 ease-in-out z-10"
-            >
+            <div className="absolute top-full right-0 mt-3 w-44 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-all duration-300 ease-in-out z-10">
               <Link
                 to="/login"
-                className="block px-4 py-2 hover:bg-gray-200 text-gray-700 hover:text-red-600"
+                className="block px-4 py-2 hover:bg-red-50 text-gray-700 hover:text-red-600 rounded-t-lg"
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="block px-4 py-2 hover:bg-gray-200 text-gray-700 hover:text-red-600"
+                className="block px-4 py-2 hover:bg-red-50 text-gray-700 hover:text-red-600 rounded-b-lg"
               >
                 Register
               </Link>
@@ -90,53 +95,51 @@ const Navbar = () => {
           </li>
         </ul>
 
-        {/* CTA + Theme Toggle */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* CTA Button */}
+        <div className="hidden md:flex items-center">
           <Link
             to="/donate"
-            className="bg-blue-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-blue-700 transition"
+            className="bg-red-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors"
           >
             Donate Now
           </Link>
         </div>
 
-        {/* Mobile Toggle Button */}
+        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-red-600"
-          aria-label="Menu Toggle"
+          className="md:hidden text-red-600 focus:outline-none"
+          aria-label="Toggle menu"
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Overlay */}
-      <div
-        className={`fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm transition-opacity duration-300 z-40 ${
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-        onClick={() => setIsOpen(false)}
-      />
-
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-4/5 sm:w-2/3 bg-white/70 z-50 shadow-lg transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-4/5 sm:w-2/3 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex justify-between items-center px-6 py-4 border-b">
-          <span className="text-xl font-bold text-red-600">Menu</span>
-          <button onClick={() => setIsOpen(false)}>
-            <X size={28} className="text-gray-800 hover:text-red-600" />
+        {/* Drawer Header */}
+        <div className="flex justify-between items-center px-6 py-4 border-b bg-red-600 text-white">
+          <span className="text-lg font-bold">Menu</span>
+          <button
+            onClick={() => setIsOpen(false)}
+            aria-label="Close menu"
+            className="focus:outline-none"
+          >
+            <X size={28} />
           </button>
         </div>
 
-        <ul className="px-4 py-6 space-y-4 text-base  bg-gray-200 font-medium text-gray-600">
+        {/* Drawer Links */}
+        <ul className="px-6 py-6 space-y-3 text-base font-medium text-gray-700 bg-gray-200">
           {navItems.map((item, idx) => (
             <li key={idx}>
               <Link
                 to={item.path}
-                className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-slate-400 hover:text-gray-100 transition"
+                className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-slate-50 hover:text-gray-800 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 {item.icon}
@@ -144,11 +147,12 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
-          {/* Inside Mobile Drawer ul */}
+
+          {/* Account Links */}
           <li>
             <Link
               to="/login"
-              className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-slate-400 hover:text-gray-600 transition"
+              className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-slate-50 hover:text-gray-800"
               onClick={() => setIsOpen(false)}
             >
               <LogIn size={18} />
@@ -158,7 +162,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/register"
-              className="flex items-center gap-2 py-2 px-3 rounded-md hover:bg-slate-400 hover:text-gray-600 transition"
+              className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-slate-50 hover:text-gray-800"
               onClick={() => setIsOpen(false)}
             >
               <LogIn size={18} />
@@ -166,10 +170,11 @@ const Navbar = () => {
             </Link>
           </li>
 
-          <li className="text-center mt-4">
+          {/* CTA */}
+          <li className="mt-6">
             <Link
               to="/donate"
-              className="bg-blue-600 text-white px-6 py-2 rounded-md font-bold block w-full hover:bg-blue-700 transition"
+              className="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold block text-center hover:bg-red-700 transition"
               onClick={() => setIsOpen(false)}
             >
               Donate Now
@@ -177,6 +182,14 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-40"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
     </nav>
   );
 };
