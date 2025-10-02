@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
     role: {
       type: String,
@@ -55,14 +55,15 @@ const userSchema = new mongoose.Schema(
       required: [true, "Phone number is required"],
       match: [/^[0-9]{10}$/, "Phone number must be 10 digits"],
     },
-    // Blood Type Field for Donors
     bloodType: {
       type: String,
       enum: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
-      required: false, 
+      required: false,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+const userModel = model("User", userSchema);
+
+module.exports = userModel;

@@ -1,10 +1,9 @@
-const Inventory = require("../models/inventoryModel");
-const User = require("../models/userModel");
+const Inventory = require("../models/inventory.model");
+const User = require("../models/user.model");
 const mongoose = require("mongoose");
 
-// ===============================
-// CREATE INVENTORY CONTROLLER
-// ===============================
+
+// CREATE INVENTORY 
 exports.createInventoryController = async (req, res) => {
   try {
     const { inventoryType, bloodGroup, quantity } = req.body;
@@ -101,9 +100,8 @@ exports.createInventoryController = async (req, res) => {
   }
 };
 
-// ===============================
+
 // GET INVENTORY RECORDS
-// ===============================
 exports.getInventoryController = async (req, res) => {
   try {
     const role = req.body.role;
@@ -139,9 +137,8 @@ exports.getInventoryController = async (req, res) => {
   }
 };
 
-// ===============================
+
 // GET RECENT INVENTORY RECORDS
-// ===============================
 exports.getRecentInventoryController = async (req, res) => {
   try {
     const recent = await Inventory.find({})
@@ -164,9 +161,8 @@ exports.getRecentInventoryController = async (req, res) => {
   }
 };
 
-// ===============================
+
 // GET DONORS LIST
-// ===============================
 exports.getDonorsController = async (req, res) => {
   try {
     const donors = await User.find({ role: "donor" }).select("-password");
@@ -185,9 +181,8 @@ exports.getDonorsController = async (req, res) => {
   }
 };
 
-// ===============================
+
 // GET HOSPITALS LIST
-// ===============================
 exports.getHospitalController = async (req, res) => {
   try {
     const hospitals = await User.find({ role: "hospital" }).select("-password");
@@ -205,9 +200,7 @@ exports.getHospitalController = async (req, res) => {
   }
 };
 
-// ===============================
 // GET ORGANIZATION LIST
-// ===============================
 exports.getOrganizationController = async (req, res) => {
   try {
     const orgs = await User.find({ role: "organization" }).select("-password");
@@ -225,9 +218,7 @@ exports.getOrganizationController = async (req, res) => {
   }
 };
 
-// ===============================
 // GET ORGANIZATION FOR HOSPITAL
-// ===============================
 exports.getOrganizationForHospitalController = async (req, res) => {
   try {
     const orgs = await User.find({ role: "organization" }).select("-password");
@@ -245,9 +236,7 @@ exports.getOrganizationForHospitalController = async (req, res) => {
   }
 };
 
-// ===============================
 // HOSPITAL INVENTORY RECORDS
-// ===============================
 exports.getInventoryHospitalController = async (req, res) => {
   try {
     const { hospitalId } = req.body;
@@ -277,9 +266,7 @@ exports.getInventoryHospitalController = async (req, res) => {
   }
 };
 
-// ===============================
 // UPDATE INVENTORY
-// ===============================
 exports.updateInventoryController = async (req, res) => {
   try {
     const { id } = req.params;
@@ -302,9 +289,7 @@ exports.updateInventoryController = async (req, res) => {
   }
 };
 
-// ===============================
 // DELETE INVENTORY
-// ===============================
 exports.deleteInventoryController = async (req, res) => {
   try {
     const { id } = req.params;
@@ -323,9 +308,7 @@ exports.deleteInventoryController = async (req, res) => {
   }
 };
 
-// ===============================
-// Hospital Request for Blood
-// ===============================
+// HOSPITAL REQUEST FOR BLOOD
 exports.getHospitalRequestsController = async (req, res) => {
   try {
     const hospitalEmail = req.body.email || req.user.email;

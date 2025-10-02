@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const inventorySchema = new mongoose.Schema(
+const inventorySchema = new Schema(
   {
     inventoryType: {
       type: String,
@@ -18,17 +18,15 @@ const inventorySchema = new mongoose.Schema(
       min: [1, "Quantity must be a positive number"],
       default: 1,
     },
-
-    // Org/Donor/Hospital are all Users with different roles
     organization: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User", // organization role
       required: [true, "Organization is required"],
     },
 
     hospital: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // hospital role
+      type: Schema.Types.ObjectId,
+      ref: "User",
       default: null,
       validate: {
         validator: function (value) {
@@ -39,8 +37,8 @@ const inventorySchema = new mongoose.Schema(
     },
 
     donor: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // donor role
+      type: Schema.Types.ObjectId,
+      ref: "User",
       default: null,
       validate: {
         validator: function (value) {
@@ -51,7 +49,7 @@ const inventorySchema = new mongoose.Schema(
     },
 
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User", // whoever submitted the form
       required: true,
     },
@@ -59,7 +57,6 @@ const inventorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Middleware to ensure case consistency
 inventorySchema.pre("save", function (next) {
   if (this.inventoryType) {
     this.inventoryType = this.inventoryType.toLowerCase();
@@ -70,4 +67,6 @@ inventorySchema.pre("save", function (next) {
   next();
 });
 
-module.exports = mongoose.model("Inventory", inventorySchema);
+const inventoryModel = model("Inventory", inventorySchema);
+
+module.exports = inventoryModel;

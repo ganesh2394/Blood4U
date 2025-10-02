@@ -1,4 +1,4 @@
-const JWT = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res, next) => {
   try {
@@ -11,9 +11,9 @@ module.exports = async (req, res, next) => {
       });
     }
 
-    const token = authHeader.split(" ")[1]; // Extract token
+    const token = authHeader.split(" ")[1]; 
 
-    JWT.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).json({
           success: false,
@@ -21,10 +21,10 @@ module.exports = async (req, res, next) => {
         });
       }
 
-      req.body.userId = decoded.userId; // Attach userId to request body
-      req.body.role = decoded.role; // Attach user role
+      req.body.userId = decoded.userId; 
+      req.body.role = decoded.role; 
       req.user = decoded;
-      next(); // Proceed to the next middleware/controller
+      next(); 
     });
   } catch (error) {
     console.error("Auth Middleware Error:", error);

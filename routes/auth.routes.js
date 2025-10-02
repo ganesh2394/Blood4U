@@ -8,8 +8,8 @@ const {
   getAllUsers,
   updateUser,
   deleteUser,
-} = require("../controllers/authController");
-const authMiddleware = require("../middlewares/authMiddleware");
+} = require("../controllers/auth.controller");
+const authMiddleware = require("../middlewares/auth.middleware");
 const router = express.Router();
 
 // Register Route

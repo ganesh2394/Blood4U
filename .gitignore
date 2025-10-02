@@ -38,3 +38,6 @@ coverage/
 *.swp
 *.swo
 *.swn
+
+# lock file 
+package-lock.json

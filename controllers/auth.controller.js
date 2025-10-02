@@ -1,10 +1,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
+const User = require("../models/user.model");
 const nodemailer = require("nodemailer");
 
 require("dotenv").config();
-// Register User
+// REGISTER USER
 const registerUser = async (req, res) => {
   try {
     const {
@@ -60,7 +60,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// Login User
+// LOGIN USER
 const loginUser = async (req, res) => {
   try {
     const { email, password, role } = req.body;
@@ -117,7 +117,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-// get Current User
+// GET CURRENT USER
 const getCurrentUser = async (req, res) => {
   try {
     const user = await User.findById(req.body.userId).select("-password");
@@ -142,14 +142,14 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
-// Send reset link
+// FORGET PASSWORD : SEND RESET LINK
 const ForgetUserPassword = async (req, res) => {
   const { email, role } = req.body;
   if (!email || !role) {
     return res.status(400).json({ message: "Email and role are required." });
   }
   try {
-    const user = await User.findOne({ email, role }); // Check email & role in DB
+    const user = await User.findOne({ email, role }); 
     if (!user) {
       return res
         .status(404)
@@ -164,7 +164,7 @@ const ForgetUserPassword = async (req, res) => {
   }
 };
 
-// Reset Password
+// RESET PASSWORD
 const ResetPassword = async (req, res) => {
   const { email, role, password } = req.body;
 
@@ -193,7 +193,7 @@ const ResetPassword = async (req, res) => {
   }
 };
 
-// Get All Users
+// GET ALL USERS
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -203,7 +203,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Delete User
+// DELETE USER
 const deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
@@ -226,6 +226,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// UPDATE USER
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
